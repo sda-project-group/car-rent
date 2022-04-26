@@ -1,8 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
-
-from carrent.carrentapp.models import UserCustom
 
 
 class UserCreationForm(forms.ModelForm):
@@ -12,7 +11,7 @@ class UserCreationForm(forms.ModelForm):
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
 
     class Meta:
-        model = UserCustom
+        model = get_user_model()
         fields = ('email', 'username', 'first_name', 'last_name', 'birthdate', 'addr_city', 'addr_street', 'addr_post_code', 'mobile_nr')
 
     def clean_password2(self):
@@ -39,5 +38,5 @@ class UserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
 
     class Meta:
-        model = UserCustom
+        model = get_user_model()
         fields = ('email', 'username', 'first_name', 'last_name', 'birthdate', 'addr_city', 'addr_street', 'addr_post_code', 'mobile_nr', 'is_active', 'is_admin', 'is_staff')

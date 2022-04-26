@@ -1,9 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth import get_user_model
 
-from carrent.carrentapp.models import UserCustom
-from carrent.carrentapp.forms import UserCreationForm,UserChangeForm
+from .forms import UserCreationForm,UserChangeForm
 
 
 class UserAdmin(BaseUserAdmin):
@@ -30,5 +30,5 @@ class UserAdmin(BaseUserAdmin):
 
 
 # Register your models here.
-admin.site.register(UserCustom, UserAdmin)
+admin.site.register(get_user_model(), UserAdmin)
 admin.site.unregister(Group)
