@@ -124,3 +124,49 @@ class UserCustom(AbstractBaseUser):
 
     def has_module_perms(self, app_label):
         return True
+
+
+class CarBrand(models.Model):
+    brand_name = models.CharField(max_length=50, verbose_name="Brand", unique=True)
+
+    class Meta:
+        verbose_name = "Brand"
+        verbose_name_plural = "CarBrands"
+
+    def __str__(self):
+        return f'{self.brand_name}'
+
+
+class CarModel(models.Model):
+    model_name = models.CharField(max_length=50, verbose_name="Model")
+    brand = models.ForeignKey(CarBrand, on_delete=models.PROTECT)
+
+    class Meta:
+        verbose_name = "Model"
+        verbose_name_plural = "CarModels"
+
+    def __str__(self):
+        return f'{self.model_name}'
+
+
+class Car(models.Model):
+    plate_number = models.CharField(max_length=20, verbose_name="Plate Number", unique=True)
+    brand = models.ForeignKey(CarBrand, on_delete=models.PROTECT)
+    model = models.ForeignKey(CarModel, on_delete=models.PROTECT)
+    year_of_production = models.IntegerField(verbose_name="Year of production")
+    rating = models.FloatField(verbose_name="Rating")
+    number_of_seats = models.IntegerField(verbose_name="Number of seats")
+    engine_type = models.CharField(max_length=20, verbose_name="Engine type",
+                                   choices=(('p', 'Petrol'), ('d', 'Diesel'), ('e', 'Electric'), ('h', 'Hybrid')))
+    engine_power = models.IntegerField(verbose_name="Engine power")
+    color = models.CharField(max_length=50, verbose_name="Color")
+    car_mileage = models.IntegerField(verbose_name="Car mileage")
+    car_image = models.ImageField(upload_to='images/cars', verbose_name="Image")
+    gearbox_type = models.CharField(max_length=10, verbose_name="Gearbox", choices=(('a', 'Automatic'), ('m', 'Manual')))
+
+    class Meta:
+        verbose_name = "Car"
+        verbose_name_plural = "Cars"
+
+    def __str__(self):
+        return f'{self.plate_number} - {self.brand} {self.model}'
