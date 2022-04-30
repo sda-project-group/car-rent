@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
 
 
 class UserCreationForm(forms.ModelForm):
@@ -40,3 +42,24 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = get_user_model()
         fields = ('email', 'username', 'first_name', 'last_name', 'birthdate', 'addr_city', 'addr_street', 'addr_post_code', 'mobile_nr', 'is_active', 'is_admin', 'is_staff')
+
+
+class LoginForm(AuthenticationForm):
+    username = forms.EmailField(max_length=100,
+                               required=True,
+                               widget=forms.TextInput(attrs={'placeholder': 'e-mail',
+                                                             'class': 'form-control',
+                                                             }))
+    password = forms.CharField(max_length=50,
+                               required=True,
+                               widget=forms.PasswordInput(attrs={'placeholder': 'Hasło',
+                                                                 'class': 'form-control',
+                                                                 'data-toggle': 'password',
+                                                                 'id': 'password',
+                                                                 'name': 'password',
+                                                                 }))
+    remember_me = forms.BooleanField(required=False)
+
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'remember_me']

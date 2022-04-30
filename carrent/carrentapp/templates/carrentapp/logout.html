@@ -1,0 +1,13 @@
+{% extends 'carrentapp/base.html' %}
+{% block title %}Wyloguj{% endblock title %}
+{% block section_one %}
+    <div class="row justify-content-center">
+        <div class="card" style="width: 18rem;">
+        <div class="card-body">
+        <h5 class="card-title">Zostałeś wylogowany</h5>
+        <br><hr><a href="{% url 'login' %}" class="btn btn-primary">Zaloguj się ponownie</a>
+        </div>
+    </div>
+ </div>
+
+{% endblock %}
