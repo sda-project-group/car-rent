@@ -63,3 +63,65 @@ class LoginForm(AuthenticationForm):
     class Meta:
         model = User
         fields = ['username', 'password', 'remember_me']
+
+
+class RegistrationForm(UserCreationForm):
+
+    email = forms.EmailField(required=True,
+                             widget=forms.TextInput(attrs={'placeholder': 'Email',
+                                                           'class': 'form-control',
+                                                           }))
+    username = forms.CharField(required=True,
+                                 widget=forms.TextInput(attrs={'placeholder': 'Nazwa użytkownika',
+                                                               'class': 'form-control',
+                                                               }))
+    first_name = forms.CharField(required=True,
+                                widget=forms.TextInput(attrs={'placeholder': 'Imię',
+                                                           'class': 'form-control',
+                                                           }))
+    last_name = forms.CharField(required=True,
+                                widget=forms.TextInput(attrs={'placeholder': 'Nazwisko',
+                                                           'class': 'form-control',
+                                                           }))
+    birthdate = forms.DateField(required=True,
+                                widget=forms.TextInput(attrs={'placeholder': 'YYYY-MM-DD',
+                                                               'class': 'form-control',
+                                                               }))
+    addr_city = forms.CharField(required=True,
+                                widget=forms.TextInput(attrs={'placeholder': 'Miasto',
+                                                           'class': 'form-control',
+                                                           }))
+    addr_street = forms.CharField(required=True,
+                                widget=forms.TextInput(attrs={'placeholder': 'Ulica',
+                                                           'class': 'form-control',
+                                                           }))
+    addr_post_code = forms.CharField(required=True,
+                                widget=forms.TextInput(attrs={'placeholder': 'Kod pocztowy',
+                                                           'class': 'form-control',
+                                                           }))
+    mobile_nr = forms.CharField(required=True,
+                                widget=forms.TextInput(attrs={'placeholder': 'Numer telefonu',
+                                                           'class': 'form-control',
+                                                           }))
+
+
+    class Meta:
+        model = get_user_model()
+        fields = ('email', 'password1', 'password2', 'username', 'first_name', 'last_name', 'birthdate', 'addr_city', 'addr_street', 'addr_post_code', 'mobile_nr')
+
+    def save(self, commit=True):
+        user = super(RegistrationForm, self).save(commit=False)
+        user.email = self.cleaned_data['email']
+        user.username = self.cleaned_data['username']
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.birthdate = self.cleaned_data['birthdate']
+        user.addr_city = self.cleaned_data['addr_city']
+        user.addr_street = self.cleaned_data['addr_street']
+        user.addr_post_code = self.cleaned_data['addr_post_code']
+        user.mobile_nr = self.cleaned_data['mobile_nr']
+
+        if commit:
+            user.save()
+
+        return user
