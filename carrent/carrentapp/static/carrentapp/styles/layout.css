@@ -11,4 +11,54 @@
   border-top: 1px solid #999999;
   margin-top:20px;
   text-align:center;
-  }
+}
+#carobject{
+  width: 30%;
+  float: left;
+}
+
+#carlisttable{
+  float: left;
+  width: 40%;
+  margin-left: 2%;
+  margin-bottom: 2%;
+  margin-top: 2%;
+  font-size: 15px;
+  font-weight: bold;
+}
+#carlistphoto{
+  vertical-align: top;
+  float: right;
+  margin-top: 2%;
+  margin-left: 1%;
+  margin-right: 2%;
+  width: 55%;
+}
+
+#headerdetail
+{
+  margin-left: 2%;
+  font-size: 50px;
+
+}
+
+#imagedetail
+{
+  float: right;
+  margin-left: 2%;
+  margin-right: 2%;
+  width: 50%;
+}
+
+#detailtable
+{
+  float: left;
+  width: 25%;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 2%;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+

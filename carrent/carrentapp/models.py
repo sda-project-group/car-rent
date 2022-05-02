@@ -127,11 +127,11 @@ class UserCustom(AbstractBaseUser):
 
 
 class CarBrand(models.Model):
-    brand_name = models.CharField(max_length=50, verbose_name="Brand", unique=True)
+    brand_name = models.CharField(max_length=50, verbose_name="Marka", unique=True)
 
     class Meta:
-        verbose_name = "Brand"
-        verbose_name_plural = "CarBrands"
+        verbose_name = "Marka"
+        verbose_name_plural = "Marki"
 
     def __str__(self):
         return f'{self.brand_name}'
@@ -143,30 +143,30 @@ class CarModel(models.Model):
 
     class Meta:
         verbose_name = "Model"
-        verbose_name_plural = "CarModels"
+        verbose_name_plural = "Modele"
 
     def __str__(self):
         return f'{self.model_name}'
 
 
 class Car(models.Model):
-    plate_number = models.CharField(max_length=20, verbose_name="Plate Number", unique=True)
+    plate_number = models.CharField(max_length=20, verbose_name="Numer rejestracyjny", unique=True)
     brand = models.ForeignKey(CarBrand, on_delete=models.PROTECT)
     model = models.ForeignKey(CarModel, on_delete=models.PROTECT)
-    year_of_production = models.IntegerField(verbose_name="Year of production")
-    rating = models.FloatField(verbose_name="Rating")
-    number_of_seats = models.IntegerField(verbose_name="Number of seats")
-    engine_type = models.CharField(max_length=20, verbose_name="Engine type",
-                                   choices=(('p', 'Petrol'), ('d', 'Diesel'), ('e', 'Electric'), ('h', 'Hybrid')))
-    engine_power = models.IntegerField(verbose_name="Engine power")
-    color = models.CharField(max_length=50, verbose_name="Color")
-    car_mileage = models.IntegerField(verbose_name="Car mileage")
-    car_image = models.ImageField(upload_to='images/cars', verbose_name="Image")
-    gearbox_type = models.CharField(max_length=10, verbose_name="Gearbox", choices=(('a', 'Automatic'), ('m', 'Manual')))
+    year_of_production = models.IntegerField(verbose_name="Rok produkcji")
+    rating = models.FloatField(verbose_name="Ocena")
+    number_of_seats = models.IntegerField(verbose_name="Ilość miejsc")
+    engine_type = models.CharField(max_length=20, verbose_name="Rodzaj silnika",
+                                   choices=(('Benzynowy', 'Benzynowy'), ('Diesel', 'Diesel'), ('Elektryczny', 'Elektryczny'), ('Hybryda', 'Hybryda')))
+    engine_power = models.IntegerField(verbose_name="Moc")
+    color = models.CharField(max_length=50, verbose_name="Kolor")
+    car_mileage = models.IntegerField(verbose_name="Przebieg")
+    car_image = models.ImageField(upload_to='images/cars', verbose_name="Zdjęcie")
+    gearbox_type = models.CharField(max_length=15, verbose_name="Skrzynia biegów", choices=(('Automatyczna', 'Automatyczna'), ('Manualna', 'Manualna')))
 
     class Meta:
-        verbose_name = "Car"
-        verbose_name_plural = "Cars"
+        verbose_name = "Samochód"
+        verbose_name_plural = "Samochody"
 
     def __str__(self):
         return f'{self.plate_number} - {self.brand} {self.model}'
