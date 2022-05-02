@@ -1,0 +1,49 @@
+{% extends 'carrentapp/base.html' %}
+{% load static %}
+{% block section_two %}
+
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+</head>
+<body>
+
+<h1 id="headerdetail"> {{  car.brand }} {{ car.model }} </h1>
+
+<table id="detailtable">
+
+  <tr>
+    <td>Moc KM</td>
+    <td>{{ car.engine_power }}</td>
+  </tr>
+  <tr>
+    <td>Silnik</td>
+    <td>{{ car.engine_type }}</td>
+  </tr>
+  <tr>
+    <td>Skrzynia biegów</td>
+    <td>{{ car.gearbox_type }}</td>
+  </tr>
+  <tr>
+    <td>Kolor</td>
+    <td>{{ car.color }}</td>
+  </tr>
+  <tr>
+    <td>Liczba miejsc</td>
+    <td>{{ car.number_of_seats }}</td>
+  </tr>
+  <tr>
+    <td>Rok produkcji</td>
+    <td>{{ car.year_of_production }}</td>
+  </tr>
+
+</table>
+        <img id="imagedetail" src="{{ car.car_image.url }}">
+</body>
+</html>
+
+{% endblock %}

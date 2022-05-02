@@ -1,0 +1,32 @@
+{% extends 'carrentapp/base.html' %}
+{% load static %}
+{% block section_one %}
+
+    {% for car in car_list %}
+    <div id="carobject">
+        <table id="carlisttable">
+
+          </tr>
+          <tr>
+            <td>Marka</td>
+            <td>{{ car.brand }}</td>
+          </tr>
+          <tr>
+            <td>Model</td>
+            <td>{{ car.model }}</td>
+          </tr>
+          <tr>
+            <td>Skrzynia biegów</td>
+            <td>{{ car.gearbox_type }}</td>
+          </tr>
+          <tr>
+            <td>Liczba miejsc</td>
+            <td>{{ car.number_of_seats }}</td>
+          </tr>
+
+        </table>
+    <a href ="{% url 'car_detail' car.id %}"><img id="carlistphoto" src="{{ car.car_image.url }}"></a>
+    </div>
+    {% endfor %}
+
+{% endblock %}
