@@ -155,7 +155,7 @@ class CarModel(models.Model):
 class Car(models.Model):
     plate_number = models.CharField(max_length=20, verbose_name="Numer rejestracyjny", unique=True)
     brand = models.ForeignKey(CarBrand, on_delete=models.PROTECT)
-    model = models.ForeignKey(CarModel, on_delete=models.PROTECT)
+    car_model = models.ForeignKey(CarModel, on_delete=models.PROTECT)
     year_of_production = models.IntegerField(verbose_name="Rok produkcji")
     rating = models.FloatField(verbose_name="Ocena")
     number_of_seats = models.IntegerField(verbose_name="Ilość miejsc")
