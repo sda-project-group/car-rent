@@ -173,3 +173,15 @@ class Car(models.Model):
 
     def __str__(self):
         return f'{self.plate_number} - {self.brand} {self.model}'
+
+
+class BasePrice(models.Model):
+    base_price = models.IntegerField(verbose_name="Cena Bazowa")
+
+    class Meta:
+        verbose_name = "Cena Bazowa"
+        verbose_name_plural = "Cena Bazowa"
+
+    def __str__(self):
+        return f'Cena Bazowa: {self.base_price}'
+
