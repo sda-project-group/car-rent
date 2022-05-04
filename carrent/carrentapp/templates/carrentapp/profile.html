@@ -1,0 +1,53 @@
+{% extends "carrentapp/base.html" %}
+{% block title %}Profil użytkownika{% endblock title %}
+{% block section_one%}
+
+    {% if user_form.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div id="form_errors">
+                {% for key, value in user_form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <div class="form-content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <label class="small mb-1">Email:</label>
+                            {{ user_form.email }}
+                        <label class="small mb-1">Użytkownik:</label>
+                            {{ user_form.username }}
+                        <label class="small mb-1">Imię:</label>
+                            {{ user_form.first_name }}
+                         <label class="small mb-1">Nazwisko:</label>
+                            {{ user_form.last_name }}
+                         <label class="small mb-1">Data urodzenia:</label>
+                            {{ user_form.birthdate }}
+                         <label class="small mb-1">Miasto:</label>
+                            {{ user_form.addr_city }}
+                        <label class="small mb-1">Ulica:</label>
+                            {{ user_form.addr_street }}
+                        <label class="small mb-1">Kod pocztowy:</label>
+                            {{ user_form.addr_post_code }}
+                         <label class="small mb-1">Numer telefonu:</label>
+                            {{ user_form.mobile_nr }}
+
+                    </div>
+                    <div class="form-group">
+                        <a href="{% url 'password_change' %}">Zmień hasło</a>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-dark btn-lg">Zapisz zmiany</button>
+            <button type="reset" class="btn btn-dark btn-lg">Anuluj</button>
+        </form>
+    </div>
+{% endblock %}

@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from django.db.transaction import atomic
 
 
 class UserCreationForm(forms.ModelForm):
@@ -109,6 +110,7 @@ class RegistrationForm(UserCreationForm):
         model = get_user_model()
         fields = ('email', 'password1', 'password2', 'username', 'first_name', 'last_name', 'birthdate', 'addr_city', 'addr_street', 'addr_post_code', 'mobile_nr')
 
+    @atomic
     def save(self, commit=True):
         user = super(RegistrationForm, self).save(commit=False)
         user.email = self.cleaned_data['email']
@@ -125,3 +127,29 @@ class RegistrationForm(UserCreationForm):
             user.save()
 
         return user
+
+
+class UpdateUserForm(forms.ModelForm):
+    email = forms.EmailField(required=True,
+                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+    username = forms.CharField(required=True,
+                             widget=forms.TextInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(required=True,
+                             widget=forms.TextInput(attrs={'class': 'form-control'}))
+    last_name = forms.CharField(required=True,
+                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
+    birthdate = forms.DateField(required=True,
+                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
+    addr_city = forms.CharField(required=True,
+                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
+    addr_street = forms.CharField(required=True,
+                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
+    addr_post_code = forms.CharField(required=True,
+                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
+    mobile_nr = forms.CharField(required=True,
+                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = get_user_model()
+        fields = ['email', 'username', 'first_name', 'last_name', 'birthdate', 'addr_city', 'addr_street',
+                  'addr_post_code', 'mobile_nr']

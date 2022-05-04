@@ -16,7 +16,7 @@
                                         <strong>{{ value }}</strong>
                                     {% endfor %}
                                 </div>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Zamknij">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
@@ -42,20 +42,17 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="col-md-10 offset-md-1">
-                                        <div class="form-group">
-                                            {{ form.remember_me }}
-                                            <label>Zapamietaj mnie</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="col-md-10 offset-md-1">
                                         <div class="form-group mt-0 mb-1">
                                           <button name="login" class="col-md-12 btn btn-dark" id="login">Zaloguj</button>
                                         </div>
                                     </div>
                                 </div>
                             </form>
+                            <div class="card-footer text-center">
+                            <div class="small">
+                                <a href="{% url 'users-registration' %}">Nie masz konta? Zarejestruj się</a>
+                            </div>
+                        </div>
                         </div>
 
                     </div>

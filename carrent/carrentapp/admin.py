@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 
 from .forms import UserCreationForm,UserChangeForm
 from . models import Car, CarModel, CarBrand
+from .models import Profile
 
 class UserAdmin(BaseUserAdmin):
     form = UserChangeForm
@@ -35,3 +36,5 @@ admin.site.unregister(Group)
 admin.site.register(Car)
 admin.site.register(CarModel)
 admin.site.register(CarBrand)
+admin.site.register(Profile)
+

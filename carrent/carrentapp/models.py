@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth import get_user_model
 # Create your models here.
 
 
@@ -170,3 +171,11 @@ class Car(models.Model):
 
     def __str__(self):
         return f'{self.plate_number} - {self.brand} {self.model}'
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
+
