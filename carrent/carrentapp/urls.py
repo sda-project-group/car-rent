@@ -2,7 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.urls import path
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from carrentapp.views import ChangePasswordView
 from . import views
 from .forms import LoginForm
@@ -19,5 +19,8 @@ urlpatterns = [
     path('cardetail/<int:pk>/', DetailView.as_view(model=Car), name="car_detail"),
     path('profile/', profile_view, name='user-profile'),
     path('password-change/', ChangePasswordView.as_view(), name='password_change'),
+    path('', TemplateView.as_view(template_name='carrentapp/home_page.html'), name='main'),
+    path('contact', TemplateView.as_view(template_name='carrentapp/contact.html'), name='contact'),
+    path('aboutus', TemplateView.as_view(template_name='carrentapp/about.html'), name='about'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

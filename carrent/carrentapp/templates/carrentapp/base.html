@@ -2,34 +2,74 @@
 <! DOCTYPE html>
 <html lang="pl">
 <head>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> {% block sitle_title %} Car rent {% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/05f65cc5b5.js" crossorigin="anonymous"></script>
     <link href="{% static 'carrentapp/styles/layout.css' %}" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="header">
-    <nav class="navbar sticky-top navbar-light bg-#aaaaaa">
-      <div class="container-sm">
-        <a class="navbar-brand" href="#">Strona główna</a>
-        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-            Oferta</a>
-        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-            Wynajem</a>
-        <a href="{% url 'car_list' %}" class="btn btn-primary" role="button">Flota </a>
-        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-            O nas</a>
-        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-            Kontakt</a>
-          {% if request.user.is_authenticated %}
-            <a href="{% url 'logout' %}" class="btn btn-primary">Wyloguj</a>
-            <a href="{% url 'user-profile' %}" class="btn btn-primary">Edytuj profil</a>
-          {% else %}
-            <a href="{% url 'login' %}" class="btn btn-primary">Zaloguj</a>
-          {% endif %}
+<!--    <nav class="navbar sticky-top navbar-light bg-#aaaaaa">-->
+<!--      <div class="container-sm">-->
+<!--        <a class="navbar-brand" href="#">Strona główna</a>-->
+<!--        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">-->
+<!--            Oferta</a>-->
+<!--        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">-->
+<!--            Wynajem</a>-->
+<!--        <a href="{% url 'car_list' %}" class="btn btn-primary" role="button">Flota </a>-->
+<!--        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">-->
+<!--            O nas</a>-->
+<!--        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">-->
+<!--            Kontakt</a>-->
+<!--          {% if request.user.is_authenticated %}-->
+<!--            <a href="{% url 'logout' %}" class="btn btn-primary">Wyloguj</a>-->
+<!--            <a href="{% url 'user-profile' %}" class="btn btn-primary">Edytuj profil</a>-->
+<!--          {% else %}-->
+<!--            <a href="{% url 'login' %}" class="btn btn-primary">Zaloguj</a>-->
+<!--          {% endif %}-->
+<!--        </div>-->
+<!--    </nav>-->
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light py-4 fixed-top">
+        <div class="container">
+            <span><i class="fa-solid fa-car text-primary"> SDA</i></span>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ms-auto me-auto">
+                {% if request.user.is_authenticated %}
+                 <a class="nav-link px-lg-3" href="#wyszukiwanie">Wypożycz</a>
+                {% else %}
+                <a class="nav-link px-lg-3" href="{% url 'login' %}">Wypożycz</a>
+                {% endif %}
+              <a class="nav-link px-lg-3" href="{% url 'main' %}">Strona główna</a>
+              <a class="nav-link px-lg-3" href="{% url 'car_list' %}">Flota</a>
+                <a class="nav-link px-lg-3" href="{% url 'car_list' %}">Oddziały</a>
+              <a class="nav-link px-lg-3" href="{% url 'about' %}">O nas</a>
+              <a class="nav-link px-lg-3" href="{% url 'contact' %}">Kontakt</a>
+                </div>
+                  </div>
+                {% if request.user.is_authenticated %}
+                 <a class="nav-link" href="{% url 'logout' %}">Wyloguj</a>
+                 <a class="nav-link" href="{% url 'user-profile' %}">Edytuj profil</a>
+                {% else %}
+            <a class="navbar-brand" href="{% url 'login' %}"><i class="bi bi-people-fill orange-color"></i></a>
+                {% endif %}
+
+
         </div>
-    </nav>
+      </nav>
+
+
+<div style="height:200vh"></div>
 </div>
 
         {% if messages %}
@@ -58,7 +98,9 @@
 
 </div>
 
-
+  <footer class="bg-dark text-light border-top">
+    <p class="text-center mb-0 py-5">&copy; 2022 - Końcowy projekt grupy nr 1</p>
+  </footer>
 <!-- <div id="footer"> -->
 <!-- (c) 2022 - Końcowy projekt grupy nr 1 -->
 <!-- </div> -->
@@ -71,5 +113,6 @@
 
 <!-- A plugin for password show/hide  -->
    <script src="https://unpkg.com/bootstrap-show-password@1.2.1/dist/bootstrap-show-password.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 </html>
