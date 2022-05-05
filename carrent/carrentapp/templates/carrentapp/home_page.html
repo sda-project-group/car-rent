@@ -1,5 +1,102 @@
 {% extends 'carrentapp/base.html' %}
 
-{% block one_section %}
+{% block section_one %}
+<main>
+    <section class="home">
+    <div class="container h-100 d-flex flex-column justify-content-center align-items-center text-light text-center">
+      <p class="display-1">SDA Wypożyczalnia</p>
+      <p class="welcome-text mb-5">Samochód na każdy rodzaj paliwa</p>
+      <a class="btn btn-outline-light" href="{% url 'car_list' %}">Sprawdź</a>
+      <div class="hero-shadow"></div>
+    </div>
+    </section>
+
+
+        <section id="aboutus">
+          <div class="container py-5 aboutus-boxes">
+            <div class="row text-center">
+
+              <div class="col-12 col-md-6 col-lg-3">
+                <div class="aboutus-box m-3 p-4 p-lg-5 border text-dark">
+                  <h3>Jakość</h3>
+                  <i class="bi bi-check aboutus-icon"></i>
+                  <p>Naszym największym atutem jest gwarancja niezawodności każdego z samochodów. Albo zwrot pieniędzy  </p>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3">
+                <div class="aboutus-box m-3 p-4 p-lg-5 border text-light bg-dark">
+                  <h3>Klienci</h3>
+                  <i class="bi bi-emoji-heart-eyes aboutus-icon"></i>
+                  <p class="description">98% klientów, którzy nam zaufali wraca do nas w ciągu 3 miesięcy</p>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3">
+                <div class="aboutus-box m-3 p-4 p-lg-5 border text-dark">
+                  <h3>Sprzęt</h3>
+                  <i class="bi bi-speedometer2 aboutus-icon"></i>
+                  <p>Nasze auta są bezpieczne i szybkie. Dla najmłodszych pasażerów oferujemy certyfikowany fotelik gratis.</p>
+                </div>
+              </div>
+              <div class="col-12 col-md-6 col-lg-3">
+                <div class="aboutus-box m-3 p-4 p-lg-5 border text-light bg-dark">
+                  <h3>Ceny</h3>
+                  <i class="bi bi-cash-coin aboutus-icon"></i>
+                  <p>U nas ceny spadają wraz z długością okresu wypożyczenia. Nie ma ukrytych opłat. ubezpieczenie jest w nich zawarte</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+    <section class="carouselCar">
+        <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner text-light text-center">
+
+                <div class="carousel-item carousel-img-one active">
+                    <div
+                        class="carousel-caption h-100 p-5 d-flex flex-column justify-content-end justify-content-md-center align-items-center">
+                        <p class="display-3">Najwygodniejszy</p>
+                    </div>
+                    <div class="hero-shadow"></div>
+                </div>
+                <div class="carousel-item carousel-img-two ">
+                    <div
+                        class="carousel-caption h-100 p-5 d-flex flex-column justify-content-end justify-content-md-center align-items-center">
+                        <p class="display-3">Najszybszy</p>
+                    </div>
+                    <div class="hero-shadow"></div>
+                </div>
+                <div class="carousel-item carousel-img-three ">
+                    <div
+                        class="carousel-caption h-100 p-5 d-flex flex-column justify-content-end justify-content-md-center align-items-center">
+                        <p class="display-3">Najbezpieczniejszy</p>
+                    </div>
+                    <div class="hero-shadow"></div>
+                </div>
+
+
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
+      </main>
+
 
 {% endblock %}

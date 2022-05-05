@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.views import LoginView
-from .forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm, UpdateUserForm
 from django.urls import reverse_lazy, reverse
-from .forms import RegistrationForm
 from django.views import View
-
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 
 def base_test_view(request):
     return render(request, 'carrentapp/base.html')
@@ -45,3 +47,24 @@ class RegisterView(View):
 
         return render(request, self.template_name, {'form': form})
 
+
+@login_required
+def profile_view(request):
+    if request.method == 'POST':
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+
+        if user_form.is_valid():
+            user_form.save()
+            messages.success(request, 'Twój profil został pomyślnie zaktualizowany')
+            return redirect(to='user-profile')
+    else:
+        user_form = UpdateUserForm(instance=request.user)
+
+    return render(request, 'carrentapp/profile.html', {'user_form': user_form})
+
+
+class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
+    template_name = 'carrentapp/password_change.html'
+    success_message = "Hasło zostało zmienione"
+    #adres przekierowania - do zmiany
+    success_url = reverse_lazy('zalogowany')
