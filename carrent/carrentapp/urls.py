@@ -5,7 +5,8 @@ from django.urls import path
 from django.views.generic import ListView, DetailView, TemplateView
 
 from .forms import LoginForm
-from .views import CustomLoginView, RegisterView, profile_view, ChangePasswordView, base_test_view
+from .views import CustomLoginView, RegisterView, profile_view, ChangePasswordView, base_test_view, CreateOrderView, \
+    OrderConfirmView
 from .models import Car
 
 urlpatterns = [
@@ -21,5 +22,7 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='carrentapp/home_page.html'), name='main'),
     path('contact', TemplateView.as_view(template_name='carrentapp/contact.html'), name='contact'),
     path('aboutus', TemplateView.as_view(template_name='carrentapp/about.html'), name='about'),
+    path('order/<int:pk>/', CreateOrderView.as_view(), name='order'),
+    path('order-confirm/<int:pk>/', OrderConfirmView.as_view(), name='order_confirm'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,12 +1,16 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.views import LoginView
-from .forms import LoginForm, RegistrationForm, UpdateUserForm
-from django.urls import reverse_lazy, reverse
-from django.views import View
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
+from django.views import View
+from django.views.generic import CreateView, DeleteView
+
+from .forms import LoginForm, RegistrationForm, UpdateUserForm
+from .models import BasePrice, Car, Order
+
 
 def base_test_view(request):
     return render(request, 'carrentapp/base.html')
@@ -68,3 +72,24 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     success_message = "Hasło zostało zmienione"
     #adres przekierowania - do zmiany
     success_url = reverse_lazy('zalogowany')
+
+
+class CreateOrderView(CreateView):
+    model = Order
+    fields = ['start_date', 'return_date']
+
+    def form_valid(self, form):
+        objct = form.save(commit=False)
+        objct.client = self.request.user
+        objct.car = Car.objects.get(id=self.kwargs['pk'])
+        objct.base_price = BasePrice.objects.get(id=1)
+        objct.save()
+        return redirect('order_confirm', pk=objct.id)
+
+
+
+class OrderConfirmView(DeleteView):
+    model = Order
+
+    def get_success_url(self):
+        return reverse('car_detail', args=[self.object.car.id])
