@@ -189,10 +189,4 @@ class BasePrice(models.Model):
     def __str__(self):
         return f'Cena Bazowa: {self.base_price}'
 
-      
-class Profile(models.Model):
-    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.user.username
 
