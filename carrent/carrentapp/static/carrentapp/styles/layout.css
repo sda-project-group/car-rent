@@ -192,12 +192,21 @@ align-items: center;
   padding-bottom:20px;
 }
 
-#footer
-{
-  border-top: 1px solid #999999;
-  margin-top:20px;
-  text-align:center;
+#content{
+	margin-bottom: 5%;
 }
+
+#section_one{
+  size: auto;
+  margin-bottom: 10%;
+}
+#section_two{
+	margin-bottom: 10%;
+}
+#section_three{
+	margin-bottom: 10%;
+}
+
 #carobject{
 display: flex;
 flex-direction: row;
@@ -208,7 +217,6 @@ width: 0.2 vw;
 }
 
 #carlisttable{
-
   width: 40%;
   margin-left: 2%;
   margin-bottom: 2%;
@@ -216,6 +224,7 @@ width: 0.2 vw;
   font-size: 15px;
   font-weight: bold;
 }
+
 #carlistphoto{
   vertical-align: top;
   margin-top: 2%;
@@ -224,31 +233,35 @@ width: 0.2 vw;
   width: 55%;
 }
 
-#headerdetail
-{
+#detailheader{
   margin-left: 2%;
   font-size: 50px;
-
-}
-
-#imagedetail
-{
-  float: right;
-  margin-left: 2%;
-  margin-right: 2%;
-  width: 50%;
 }
 
 #detailtable
-{
-  float: left;
+{ float: top;
   width: 25%;
-  margin-left: 2%;
-  margin-right: 2%;
-  margin-bottom: 2%;
+  margin: 1%;
   font-size: 25px;
   font-weight: bold;
 }
+
+#detailimage{
+  float: right;
+  float: top;
+  align-self: auto;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 2%;
+  width: 50%;
+}
+
+#orderbutton{
+  float: bottom;
+  margin: 2%;
+}
+
+
 
 
 
