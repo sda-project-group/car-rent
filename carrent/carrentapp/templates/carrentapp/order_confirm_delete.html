@@ -1,0 +1,65 @@
+{% load static %}
+<! DOCTYPE html>
+<html lang="pl">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title> {% block sitle_title %} Order Confirm {% endblock %}</title>
+    <link href="{% static 'carrentapp/styles/layout.css' %}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<form method="post">{% csrf_token %}
+
+<h1>Czy chcesz wypożyczyć ten samochod: </h1>
+    <h2>{{ object.car_brand }} {{ object.car_model }}</h2>
+    <img alt="car" id="detailimage" src="{{ object.car.car_image.url }}">
+<div style="height: auto; width: 50%">
+<table id="detailtable">
+
+  <tr>
+    <td>Moc KM</td>
+    <td>{{ object.car.engine_power }}</td>
+  </tr>
+  <tr>
+    <td>Silnik</td>
+    <td>{{ object.car.engine_type }}</td>
+  </tr>
+  <tr>
+    <td>Skrzynia biegów</td>
+    <td>{{ object.car.gearbox_type }}</td>
+  </tr>
+  <tr>
+    <td>Kolor</td>
+    <td>{{ object.car.color }}</td>
+  </tr>
+  <tr>
+    <td>Liczba miejsc</td>
+    <td>{{ object.car.number_of_seats }}</td>
+  </tr>
+  <tr>
+    <td>Rok produkcji</td>
+    <td>{{ object.car.year_of_production }}</td>
+  </tr>
+  <tr style="color: blue">
+    <td>Data odbioru</td>
+    <td>{{ object.start_date }}</td>
+  </tr>
+  <tr style="color: darkblue">
+    <td>Data zwrotu</td>
+    <td>{{ object.return_date }}</td>
+  </tr>
+  <tr style="color: green">
+    <td>Koszt całkowity</td>
+    <td>{{ object.rent_cost }}</td>
+  </tr>
+
+</table>
+    <input type="submit" value="Cofnij do Auta" class="btn btn-primary">
+    <a href="{% url 'car_list' %}" class="btn btn-primary">Potwierdź</a>
+</div>
+
+
+
+</form>
+</body>

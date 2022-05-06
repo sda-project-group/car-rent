@@ -1,0 +1,14 @@
+{% extends 'carrentapp/base.html' %}
+{% block section_one %}
+
+<form method="POST" novalidate>
+  <table class="order-form" >
+      {{ form }}
+      <tr>{{ request.user }}</tr>
+      <tr>
+          <td><input type="submit" value="Dodaj" name="submit"></td>
+      </tr>
+  </table>
+    {% csrf_token %}
+</form>
+{% endblock %}

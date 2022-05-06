@@ -4,7 +4,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth import get_user_model
 
 from .forms import UserCreationForm,UserChangeForm
-from . models import Car, CarModel, CarBrand, BasePrice
+from . models import Car, CarModel, CarBrand, BasePrice, Order
 
 
 class UserAdmin(BaseUserAdmin):
@@ -37,3 +37,4 @@ admin.site.register(Car)
 admin.site.register(CarModel)
 admin.site.register(CarBrand)
 admin.site.register(BasePrice)
+admin.site.register(Order)
