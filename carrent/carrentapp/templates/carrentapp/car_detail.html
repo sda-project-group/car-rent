@@ -40,9 +40,11 @@ table, th, td {
     <td>Rok produkcji</td>
     <td>{{ car.year_of_production }}</td>
   </tr>
-
 </table>
-        <img id="imagedetail" src="{{ car.car_image.url }}">
+
+<img id="imagedetail" src="{{ car.car_image.url }}">
+<a href="{% url 'order' car.id %}" class="btn btn-primary">Rezerwuj</a>
+
 </body>
 </html>
 
