@@ -4,13 +4,13 @@
     padding: 0;
 }
 html{
-    font-size: 62.5%
+    font-size: 62.5%;
     scroll-behavior: smooth;
 }
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: rcb(255,255,255);
+    background-color: rgb(255,255,255);
     font-size: 1.6rem;
 }
 .nav-link {
@@ -68,7 +68,7 @@ text-transform: uppercase;
 height: 1vh;
 }
 .aboutus-box h3 {
-	font-size: 2 rem;
+	font-size: 2 rem ;
 	font-weight: bold;
 	text-transform: uppercase;
 }
