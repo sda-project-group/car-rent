@@ -186,3 +186,54 @@ class BasePrice(models.Model):
     def __str__(self):
         return f'Cena Bazowa: {self.base_price}'
 
+
+class Order(models.Model):
+    client = models.ForeignKey(UserCustom, on_delete=models.PROTECT)
+    car = models.ForeignKey(Car, on_delete=models.PROTECT)
+    base_price = models.ForeignKey(BasePrice, on_delete=models.PROTECT)
+
+    client_email = models.EmailField(verbose_name="E-mail", max_length=50, blank=True, null=True)
+    client_mobile = models.CharField(verbose_name="Nr telefonu", max_length=15, blank=True, null=True)
+    client_first_name = models.CharField(verbose_name="Imie", max_length=30, blank=True, null=True)
+    client_last_name = models.CharField(verbose_name="Nazwisko", max_length=50, blank=True, null=True)
+
+    car_plate_nr = models.CharField(max_length=20, verbose_name="Numer rejestracyjny", blank=True, null=True)
+    car_brand = models.CharField(verbose_name="Marka", max_length=30, blank=True, null=True)
+    car_model = models.CharField(verbose_name="Model", max_length=30, blank=True, null=True)
+
+    rent_cost = models.IntegerField(verbose_name="Koszt wynajmu", blank=True, null=True)
+    start_date = models.DateField(verbose_name="Start")
+    return_date = models.DateField(verbose_name="Zwrot")
+    order_datetime = models.DateTimeField(verbose_name="Powstanie zamówienia", auto_now_add=True)
+    last_modified = models.DateTimeField(verbose_name="Edytowane", auto_now=True)
+
+
+    status = models.CharField(max_length=10,
+                              verbose_name="Status",
+                              choices=(
+                                  ('Aktywny', 'Aktywny'),
+                                  ('Historia', 'Historia')))
+
+    class Meta:
+        verbose_name = "Log Wypozyczenia"
+        verbose_name_plural = "Logi Wypozyczen"
+
+    def __str__(self):
+        return f'{self.client_email} {self.car_plate_nr}'
+
+    @property
+    def cost_calculator(self):
+        nr_of_days = self.return_date - self.start_date
+        price_per_day = self.base_price.base_price * self.car.rating
+        return nr_of_days.days * price_per_day
+
+    def save(self, *args, **kwarg):
+        self.rent_cost = self.cost_calculator
+        self.client_email = self.client.email
+        self.client_mobile = self.client.mobile_nr
+        self.client_first_name = self.client.first_name
+        self.client_last_name = self.client.last_name
+        self.car_plate_nr = self.car.plate_number
+        self.car_brand = self.car.brand
+        self.car_model = self.car.car_model
+        super(Order, self).save(*args, **kwarg)
