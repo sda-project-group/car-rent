@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.contrib.auth import get_user_model
+
 # Create your models here.
 
 
@@ -173,7 +173,7 @@ class Car(models.Model):
         verbose_name_plural = "Samochody"
 
     def __str__(self):
-        return f'{self.plate_number} - {self.brand} {self.model}'
+        return f'{self.plate_number} - {self.brand} {self.car_model}'
 
 
 
