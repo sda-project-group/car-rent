@@ -13,7 +13,8 @@
 
 <h1>Czy chcesz wypożyczyć ten samochod: </h1>
     <h2>{{ object.car_brand }} {{ object.car_model }}</h2>
-
+    <img alt="car" id="detailimage" src="{{ object.car.car_image.url }}">
+<div style="height: auto; width: 50%">
 <table id="detailtable">
 
   <tr>
@@ -54,10 +55,11 @@
   </tr>
 
 </table>
-
-    <img alt="car" id="imagedetail" src="{{ object.car.car_image.url }}">
-
     <input type="submit" value="Cofnij do Auta" class="btn btn-primary">
     <a href="{% url 'car_list' %}" class="btn btn-primary">Potwierdź</a>
+</div>
+
+
+
 </form>
 </body>
