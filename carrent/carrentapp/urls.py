@@ -3,14 +3,13 @@ from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.urls import path
 from django.views.generic import ListView, DetailView, TemplateView
-from carrentapp.views import ChangePasswordView
-from . import views
+
 from .forms import LoginForm
-from .views import CustomLoginView, RegisterView, profile_view
+from .views import CustomLoginView, RegisterView, profile_view, ChangePasswordView, base_test_view
 from .models import Car
 
 urlpatterns = [
-    path('base-test/', views.base_test_view, name='zalogowany'),
+    path('base-test/', base_test_view, name='zalogowany'),
     path('login/', CustomLoginView.as_view(redirect_authenticated_user=True, template_name='carrentapp/login.html',
                                            authentication_form=LoginForm), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='carrentapp/logout.html'), name='logout'),
