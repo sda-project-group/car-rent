@@ -10,7 +10,7 @@ from django.views.generic import CreateView, DeleteView
 import datetime
 
 
-from .forms import LoginForm, RegistrationForm, UpdateUserForm
+from .forms import LoginForm, RegistrationForm, UpdateUserForm, OrderDatePickForm
 from .models import BasePrice, Car, Order
 
 
@@ -68,7 +68,7 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
 
 class CreateOrderView(CreateView):
     model = Order
-    fields = ['start_date', 'return_date']
+    form_class = OrderDatePickForm
 
     def form_valid(self, form):
         objct = form.save(commit=False)
@@ -77,7 +77,6 @@ class CreateOrderView(CreateView):
         objct.base_price = BasePrice.objects.get(id=1)
         objct.save()
         return redirect('order_confirm', pk=objct.id)
-
 
 
 class OrderConfirmView(DeleteView):
@@ -93,5 +92,4 @@ def order_history_view(request):
     order_future = Order.objects.filter(client=request.user).order_by('return_date').filter(start_date__gt=datetime.date.today())
     context = {'order_old': order_old, 'order_actual': order_actual, 'order_future': order_future}
     return render(request, "carrentapp/order_history.html", context)
-
 
