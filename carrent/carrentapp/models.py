@@ -212,7 +212,8 @@ class Order(models.Model):
                               verbose_name="Status",
                               choices=(
                                   ('Aktywny', 'Aktywny'),
-                                  ('Historia', 'Historia')))
+                                  ('Historia', 'Historia')),
+                              default='Aktywny')
 
     class Meta:
         verbose_name = "Log Wypozyczenia"
