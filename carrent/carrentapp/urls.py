@@ -25,6 +25,7 @@ urlpatterns = [
     path('aboutus', TemplateView.as_view(template_name='carrentapp/about.html'), name='about'),
     path('order/<int:pk>/', CreateOrderView.as_view(), name='order'),
     path('order-confirm/<int:pk>/', OrderConfirmView.as_view(), name='order_confirm'),
+    path('order/<int:pk>/<str:msg>/', CreateOrderView.as_view(), name='order_msg'),
     path('order-history/', views.order_history_view, name='order_history')
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

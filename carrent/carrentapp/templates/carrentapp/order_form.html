@@ -2,9 +2,10 @@
 {% block section_one %}
 
 <form method="POST" novalidate>
-  <table class="order-form" >
+      <p>{{ request.user }}</p>
+      <p style="color: red">{{ view.kwargs.msg }}</p>
+    <table class="order-form" >
       {{ form }}
-      <tr>{{ request.user }}</tr>
       <tr>
           <td><input type="submit" value="Dodaj" name="submit"></td>
       </tr>
@@ -12,3 +13,6 @@
     {% csrf_token %}
 </form>
 {% endblock %}
+
+
+
