@@ -234,6 +234,6 @@ class Order(models.Model):
         self.client_first_name = self.client.first_name
         self.client_last_name = self.client.last_name
         self.car_plate_nr = self.car.plate_number
-        self.car_brand = self.car.brand
-        self.car_model = self.car.car_model
+        self.car_brand = self.car.brand.brand_name
+        self.car_model = self.car.car_model.model_name
         super(Order, self).save(*args, **kwarg)
