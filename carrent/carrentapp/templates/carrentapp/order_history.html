@@ -1,0 +1,60 @@
+{% extends 'carrentapp/base.html' %}
+
+{% block section_one %}
+
+<div class="container h-100 d-flex flex-column align-items-center text-dark text-center">
+  <h2>Historia zamówień</h2>
+<table class="table table-responsive table-bordered table-hover table-striped table-dark">
+    <thead>
+    <tr>
+      <th scope="col">Marka samochodu</th>
+      <th scope="col">Model samochodu</th>
+      <th scope="col">Numer rejestracyjny</th>
+      <th scope="col">Data wypożyczenia</th>
+      <th scope="col">Data zwrotu</th>
+      <th scope="col">Koszt wypożyczenia</th>
+    </tr>
+    </thead>
+    <body>
+
+        {%  for order in order_actual  %}
+       <tr class="table-success">
+         <td> {{ order.car_brand }}  </td>
+         <td> {{ order.car_model }}  </td>
+         <td> {{ order.car_plate_nr }}  </td>
+         <td> {{ order.start_date }}  </td>
+         <td> {{ order.return_date }}  </td>
+         <td> {{ order.rent_cost }}  </td>
+       </tr>
+        {% endfor %}
+
+        {%  for order in order_old  %}
+       <tr>
+         <td> {{ order.car_brand }}  </td>
+         <td> {{ order.car_model }}  </td>
+         <td> {{ order.car_plate_nr }}  </td>
+         <td> {{ order.start_date }}  </td>
+         <td> {{ order.return_date }}  </td>
+         <td> {{ order.rent_cost }}  </td>
+       </tr>
+    {% endfor %}
+
+        {%  for order in order_future  %}
+       <tr>
+         <td> {{ order.car_brand }}  </td>
+         <td> {{ order.car_model }}  </td>
+         <td> {{ order.car_plate_nr }}  </td>
+         <td> {{ order.start_date }}  </td>
+         <td> {{ order.return_date }}  </td>
+         <td> {{ order.rent_cost }}  </td>
+       </tr>
+    {% endfor %}
+
+    </body>
+
+</table>
+</div>
+
+<div style="height:150vh"></div>
+</div>
+{% endblock %}

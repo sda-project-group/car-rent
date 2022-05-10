@@ -107,7 +107,7 @@ AUTH_USER_MODEL = 'carrentapp.UserCustom'
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pl-pl'
 
 TIME_ZONE = 'Europe/Warsaw'
 

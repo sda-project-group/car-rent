@@ -8,6 +8,7 @@ from .forms import LoginForm
 from .views import CustomLoginView, RegisterView, profile_view, ChangePasswordView, base_test_view, CreateOrderView, \
     OrderConfirmView
 from .models import Car
+from . import views
 
 urlpatterns = [
     path('base-test/', base_test_view, name='zalogowany'),
@@ -24,5 +25,6 @@ urlpatterns = [
     path('aboutus', TemplateView.as_view(template_name='carrentapp/about.html'), name='about'),
     path('order/<int:pk>/', CreateOrderView.as_view(), name='order'),
     path('order-confirm/<int:pk>/', OrderConfirmView.as_view(), name='order_confirm'),
+    path('order-history/', views.order_history_view, name='order_history')
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

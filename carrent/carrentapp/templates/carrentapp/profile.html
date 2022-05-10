@@ -14,11 +14,13 @@
             </button>
         </div>
     {% endif %}
+        <div class="container">
+            <div class="row justify-content-center">
     <div class="form-content">
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-row">
-                <div class="col-md-5">
+                <div class="col-md-5 p-2 bg-light border" >
                     <div class="form-group">
                         <label class="small mb-1">Email:</label>
                             {{ user_form.email }}
@@ -49,5 +51,8 @@
             <button type="submit" class="btn btn-dark btn-lg">Zapisz zmiany</button>
             <button type="reset" class="btn btn-dark btn-lg">Anuluj</button>
         </form>
-    </div>
+            </div>
+                   </div>
+               </div>
+
 {% endblock %}
