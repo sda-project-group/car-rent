@@ -16,26 +16,6 @@
 </head>
 <body>
 <div id="header">
-<!--    <nav class="navbar sticky-top navbar-light bg-#aaaaaa">-->
-<!--      <div class="container-sm">-->
-<!--        <a class="navbar-brand" href="#">Strona główna</a>-->
-<!--        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">-->
-<!--            Oferta</a>-->
-<!--        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">-->
-<!--            Wynajem</a>-->
-<!--        <a href="{% url 'car_list' %}" class="btn btn-primary" role="button">Flota </a>-->
-<!--        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">-->
-<!--            O nas</a>-->
-<!--        <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">-->
-<!--            Kontakt</a>-->
-<!--          {% if request.user.is_authenticated %}-->
-<!--            <a href="{% url 'logout' %}" class="btn btn-primary">Wyloguj</a>-->
-<!--            <a href="{% url 'user-profile' %}" class="btn btn-primary">Edytuj profil</a>-->
-<!--          {% else %}-->
-<!--            <a href="{% url 'login' %}" class="btn btn-primary">Zaloguj</a>-->
-<!--          {% endif %}-->
-<!--        </div>-->
-<!--    </nav>-->
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light py-4 fixed-top">
         <div class="container">
@@ -46,7 +26,7 @@
           <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav ms-auto me-auto">
                 {% if request.user.is_authenticated %}
-                 <a class="nav-link px-lg-3" href="#wyszukiwanie">Wypożycz</a>
+                 <a class="nav-link px-lg-3" href="{% url 'car_list' %}">Wypożycz</a>
                 {% else %}
                 <a class="nav-link px-lg-3" href="{% url 'login' %}">Wypożycz</a>
                 {% endif %}
@@ -60,6 +40,7 @@
                 {% if request.user.is_authenticated %}
                  <a class="nav-link" href="{% url 'logout' %}">Wyloguj</a>
                  <a class="nav-link" href="{% url 'user-profile' %}">Edytuj profil</a>
+                <a class="nav-link" href="{% url 'order_history' %}">Historia zamówień</a>
                 {% else %}
             <a class="navbar-brand" href="{% url 'login' %}"><i class="bi bi-people-fill orange-color"></i></a>
                 {% endif %}
@@ -105,9 +86,7 @@
   <footer class="bg-dark text-light border-top">
     <p class="text-center mb-0 py-5">&copy; 2022 - Końcowy projekt grupy nr 1</p>
   </footer>
-<!-- <div id="footer"> -->
-<!-- (c) 2022 - Końcowy projekt grupy nr 1 -->
-<!-- </div> -->
+
 
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

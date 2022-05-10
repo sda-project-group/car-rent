@@ -7,6 +7,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import CreateView, DeleteView
+import datetime
+
 
 from .forms import LoginForm, RegistrationForm, UpdateUserForm
 from .models import BasePrice, Car, Order
@@ -20,16 +22,7 @@ class CustomLoginView(LoginView):
     form_class = LoginForm
 
     def get_success_url(self):
-        #tu musimy wpisać, gdzie chcemy być przekierowani po zalogowaniu - tymczasowo strona główna
-        return reverse('zalogowany')
-
-    def form_valid(self, form):
-        remember_me = form.cleaned_data.get('remember_me')
-
-        if not remember_me:
-            self.request.session.set_expiry(0)
-            self.request.session.modified = True
-        return super(CustomLoginView, self).form_valid(form)
+        return reverse('main')
 
 
 class RegisterView(View):
@@ -47,7 +40,7 @@ class RegisterView(View):
         if form.is_valid():
             form.save()
 
-            return redirect(to='zalogowany')
+            return redirect(to='main')
 
         return render(request, self.template_name, {'form': form})
 
@@ -70,8 +63,7 @@ def profile_view(request):
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
     template_name = 'carrentapp/password_change.html'
     success_message = "Hasło zostało zmienione"
-    #adres przekierowania - do zmiany
-    success_url = reverse_lazy('zalogowany')
+    success_url = reverse_lazy('main')
 
 
 class CreateOrderView(CreateView):
@@ -93,3 +85,13 @@ class OrderConfirmView(DeleteView):
 
     def get_success_url(self):
         return reverse('car_detail', args=[self.object.car.id])
+
+
+def order_history_view(request):
+    order_old = Order.objects.filter(client=request.user).order_by('return_date').filter(return_date__lt=datetime.date.today())
+    order_actual = Order.objects.filter(client=request.user).order_by('return_date').filter(start_date__lte=datetime.date.today()).filter(return_date__gte=datetime.date.today())
+    order_future = Order.objects.filter(client=request.user).order_by('return_date').filter(start_date__gt=datetime.date.today())
+    context = {'order_old': order_old, 'order_actual': order_actual, 'order_future': order_future}
+    return render(request, "carrentapp/order_history.html", context)
+
+
