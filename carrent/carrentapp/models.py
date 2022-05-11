@@ -143,7 +143,7 @@ class CarBrand(models.Model):
 
 class CarModel(models.Model):
     model_name = models.CharField(max_length=50, verbose_name="Model")
-    brand = models.ForeignKey(CarBrand, on_delete=models.PROTECT)
+    brand = models.ForeignKey(CarBrand, verbose_name="Marka", on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = "Model"
@@ -155,8 +155,8 @@ class CarModel(models.Model):
 
 class Car(models.Model):
     plate_number = models.CharField(max_length=20, verbose_name="Numer rejestracyjny", unique=True)
-    brand = models.ForeignKey(CarBrand, on_delete=models.PROTECT)
-    car_model = models.ForeignKey(CarModel, on_delete=models.PROTECT)
+    brand = models.ForeignKey(CarBrand, verbose_name="Marka", on_delete=models.PROTECT)
+    car_model = models.ForeignKey(CarModel, verbose_name="Model", on_delete=models.PROTECT)
     year_of_production = models.IntegerField(verbose_name="Rok produkcji")
     rating = models.FloatField(verbose_name="Ocena")
     number_of_seats = models.IntegerField(verbose_name="Ilość miejsc")
@@ -188,9 +188,9 @@ class BasePrice(models.Model):
 
 
 class Order(models.Model):
-    client = models.ForeignKey(UserCustom, on_delete=models.PROTECT)
-    car = models.ForeignKey(Car, on_delete=models.PROTECT)
-    base_price = models.ForeignKey(BasePrice, on_delete=models.PROTECT)
+    client = models.ForeignKey(UserCustom, verbose_name="Klient", on_delete=models.PROTECT)
+    car = models.ForeignKey(Car, verbose_name="Samochód", on_delete=models.PROTECT)
+    base_price = models.ForeignKey(BasePrice, verbose_name="Cena bazowa", on_delete=models.PROTECT)
 
     client_email = models.EmailField(verbose_name="E-mail", max_length=50, blank=True, null=True)
     client_mobile = models.CharField(verbose_name="Nr telefonu", max_length=15, blank=True, null=True)
