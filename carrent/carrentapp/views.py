@@ -10,9 +10,9 @@ from django.views.generic import CreateView, DeleteView
 import datetime
 
 
-from .forms import LoginForm, RegistrationForm, UpdateUserForm
+from .forms import LoginForm, RegistrationForm, UpdateUserForm, OrderDatePickForm
 from .models import BasePrice, Car, Order
-
+from .validators import order_date_validator, if_found_in_db
 
 def base_test_view(request):
     return render(request, 'carrentapp/base.html')
@@ -68,16 +68,33 @@ class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
 
 class CreateOrderView(CreateView):
     model = Order
-    fields = ['start_date', 'return_date']
+    form_class = OrderDatePickForm
 
     def form_valid(self, form):
         objct = form.save(commit=False)
         objct.client = self.request.user
         objct.car = Car.objects.get(id=self.kwargs['pk'])
         objct.base_price = BasePrice.objects.get(id=1)
+
+        errors = order_date_validator(objct.start_date, objct.return_date)
+        if errors:
+            return redirect('order_msg', pk=objct.car.pk, msg=errors)
+
+        colliding_entries = Order.objects.filter(
+                                                status='Aktywny',
+                                                car=objct.car,
+                                                start_date__range=(objct.start_date, objct.return_date)) |\
+                            Order.objects.filter(
+                                                status='Aktywny',
+                                                car=objct.car,
+                                                return_date__range=(objct.start_date, objct.return_date))
+
+        errors = if_found_in_db(colliding_entries)
+        if errors:
+            return redirect('order_msg', pk=objct.car.pk, msg=errors)
+
         objct.save()
         return redirect('order_confirm', pk=objct.id)
-
 
 
 class OrderConfirmView(DeleteView):
@@ -93,5 +110,3 @@ def order_history_view(request):
     order_future = Order.objects.filter(client=request.user).order_by('return_date').filter(start_date__gt=datetime.date.today())
     context = {'order_old': order_old, 'order_actual': order_actual, 'order_future': order_future}
     return render(request, "carrentapp/order_history.html", context)
-
-

@@ -6,6 +6,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.db.transaction import atomic
 
+from .models import Order
 
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
@@ -153,3 +154,13 @@ class UpdateUserForm(forms.ModelForm):
         model = get_user_model()
         fields = ['email', 'username', 'first_name', 'last_name', 'birthdate', 'addr_city', 'addr_street',
                   'addr_post_code', 'mobile_nr']
+
+
+class OrderDatePickForm(forms.ModelForm):
+
+    start_date = forms.DateField(required=True, widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
+    return_date = forms.DateField(required=True, widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
+
+    class Meta:
+        model = Order
+        fields = ['start_date', 'return_date']
