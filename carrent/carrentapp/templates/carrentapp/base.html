@@ -48,7 +48,9 @@
           <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
             <li><a class="dropdown-item" href="{% url 'logout' %}">Wyloguj</a></li>
             <li><a class="dropdown-item" href="{% url 'user-profile' %}">Edytuj profil</a></li>
-            <li><a class="dropdown-item" href="{% url 'order_history' %}">Historia zamówień</a></li>
+            <li><a class="dropdown-item" href="{% url 'actual_order' %}">Aktualnie wypożyczone</a></li>
+              <li><a class="dropdown-item" href="{% url 'history_order' %}">Historia zamówień</a></li>
+              <li><a class="dropdown-item" href="{% url 'future_order' %}">Zaplanowane</a></li>
           </ul>
         </li>
       </ul>
