@@ -6,10 +6,10 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import CreateView, DeleteView
+from django.views.generic import CreateView, DeleteView, ListView
 import datetime
-
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
 from .forms import LoginForm, RegistrationForm, UpdateUserForm, OrderDatePickForm
 from .models import BasePrice, Car, Order
 from .validators import order_date_validator, if_found_in_db
@@ -45,19 +45,20 @@ class RegisterView(View):
         return render(request, self.template_name, {'form': form})
 
 
-@login_required
-def profile_view(request):
-    if request.method == 'POST':
-        user_form = UpdateUserForm(request.POST, instance=request.user)
+class UpdateProfileUserView(LoginRequiredMixin, View):
+    def get(self, request, *args, **kwargs):
+        user_form = UpdateUserForm(instance=request.user)
+        return render(request, 'carrentapp/profile.html', {'user_form': user_form} )
 
+    def post(self, request, *args, **kwargs):
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        print(request.POST)
         if user_form.is_valid():
             user_form.save()
             messages.success(request, 'Twój profil został pomyślnie zaktualizowany')
             return redirect(to='user-profile')
-    else:
-        user_form = UpdateUserForm(instance=request.user)
 
-    return render(request, 'carrentapp/profile.html', {'user_form': user_form})
+        return HttpResponse(request.POST)
 
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
@@ -104,9 +105,28 @@ class OrderConfirmView(DeleteView):
         return reverse('car_detail', args=[self.object.car.id])
 
 
-def order_history_view(request):
-    order_old = Order.objects.filter(client=request.user).order_by('return_date').filter(return_date__lt=datetime.date.today())
-    order_actual = Order.objects.filter(client=request.user).order_by('return_date').filter(start_date__lte=datetime.date.today()).filter(return_date__gte=datetime.date.today())
-    order_future = Order.objects.filter(client=request.user).order_by('return_date').filter(start_date__gt=datetime.date.today())
-    context = {'order_old': order_old, 'order_actual': order_actual, 'order_future': order_future}
-    return render(request, "carrentapp/order_history.html", context)
+class ActualOrderView(LoginRequiredMixin, ListView):
+    model = Order
+    template_name = 'carrentapp/order_actual.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(start_date__gt=datetime.date.today(), client=self.request.user)
+
+
+class HistoryOrderView(LoginRequiredMixin, ListView):
+    model = Order
+    template_name = 'carrentapp/order_history.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(return_date__lt=datetime.date.today(), client=self.request.user)
+
+
+class FutureOrderView(LoginRequiredMixin, ListView):
+    model = Order
+    template_name = 'carrentapp/order_history.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(start_date__gt=datetime.date.today(), client=self.request.user)
