@@ -2,10 +2,30 @@
 {% load static %}
 {% block section_one %}
 
-    {% for car in car_list %}
-    <div id="carobject">
-        <table id="carlisttable">
+<section class="top-hero projects-hero">
+    <p class="top-hero-text text-light">Nasza flota</p>
+    <div class="hero-shadow"></div>
+</section>
 
+
+<section class="py-5 projects mb-5">
+    <div class="container text-center py-5">
+        <p class="display-3">Sprawdź nasze samochody</p>
+        <p>Każdy z naszych samochodów jest wyjątkowy. Łączy je jedno: są niezawodne!</p>
+    </div>
+</section>
+
+
+ <section class="py-5 projects mb-5">
+      <div class="row">
+          {% for car in car_list %}
+
+<div class="col-md-6 col-lg-4">
+    <div class="card mb-3">
+        <a href ="{% url 'car_detail' car.id %}"><img src="{{ car.car_image.url }}"></a>
+        <div class="card-body">
+            <p class="p-3">
+               <table class="table table-responsive table-bordered table-hover table-striped table-dark">
           </tr>
           <tr>
             <td>Marka</td>
@@ -25,10 +45,17 @@
           </tr>
 
         </table>
-    <a href ="{% url 'car_detail' car.id %}"><img id="carlistphoto" src="{{ car.car_image.url }}"></a>
+            </p>
+            <div class="d-flex align-items-center justify-content-between">
+         <a href="{% url 'car_detail' car.id %}" class="btn btn-outline-dark px-4" role="button">Wypożycz</a>
+            </div>
+        </div>
     </div>
-    {% endfor %}
-
-<div style="height:150vh"></div>
 </div>
+
+    {% endfor %}
+ </section>
+</div>
+<div style="height:50vh"></div>
+
 {% endblock %}

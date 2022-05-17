@@ -42,16 +42,19 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
+                                    <br>
                                     <div class="col-md-10 offset-md-1">
                                         <div class="form-group mt-0 mb-1">
                                           <button name="login" class="col-md-12 btn btn-dark" id="login">Zaloguj</button>
                                         </div>
+                                         <br>
+
                                     </div>
                                 </div>
                             </form>
                             <div class="card-footer text-center">
                             <div class="small">
-                                <a href="{% url 'users-registration' %}">Nie masz konta? Zarejestruj się</a>
+                                <a href="{% url 'users-registration' %}" class="btn btn-dark btn-lg" role="button">Nie masz konta? Zarejestruj się</a>
                             </div>
                         </div>
                         </div>
@@ -63,5 +66,4 @@
      </div>
     </div>
 <div style="height:200vh"></div>
-</div>
 {% endblock %}
