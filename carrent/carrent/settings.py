@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'carrentapp.apps.CarrentappConfig',
+    'carrentapp',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -102,7 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'carrentapp.UserCustom'
+AUTH_USER_MODEL = 'accounts.UserCustom'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
