@@ -4,15 +4,18 @@
 <form method="POST" novalidate>
       <p>{{ request.user }}</p>
       <p style="color: red">{{ view.kwargs.msg }}</p>
-    <table class="order-form" >
+     <section class="py-5 projects mb-5">
+    <table class="table table-responsive table-bordered table-hover table-striped table-dark" >
       {{ form }}
-      <tr>
-          <td><input type="submit" value="Dodaj" name="submit"></td>
-      </tr>
   </table>
+    <button name="dodaj" class="btn btn-dark btn-lg">Dodaj</button>
     {% csrf_token %}
-</form>
+
+</section>
+    </form>
+<div style="height:100vh"></div>
 {% endblock %}
+
 
 
 

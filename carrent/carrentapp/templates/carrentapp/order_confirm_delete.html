@@ -13,9 +13,12 @@
 
 <h1>Czy chcesz wypożyczyć ten samochod: </h1>
     <h2>{{ object.car_brand }} {{ object.car_model }}</h2>
+
+   <section class="py-5 projects mb-5">
+      <div class="row">
     <img alt="car" id="detailimage" src="{{ object.car.car_image.url }}">
 <div style="height: auto; width: 50%">
-<table id="detailtable">
+<table class="table table-responsive table-bordered table-hover table-striped table-dark">
 
   <tr>
     <td>Moc KM</td>
@@ -55,11 +58,12 @@
   </tr>
 
 </table>
-    <input type="submit" value="Cofnij do Auta" class="btn btn-primary">
-    <a href="{% url 'car_list' %}" class="btn btn-primary">Potwierdź</a>
+    <input type="submit" value="Cofnij do Auta" class="btn btn-dark btn-lg">
+    <a href="{% url 'car_list' %}" class="btn btn-dark btn-lg">Potwierdź</a>
 </div>
 
-
+      </div>
+   </section>
 
 </form>
 </body>

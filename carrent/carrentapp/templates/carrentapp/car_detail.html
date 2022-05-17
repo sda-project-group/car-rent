@@ -3,19 +3,17 @@
 
 {% block section_one %}
 
-
-<style>
-table, th, td {
-  border: 1px solid black;
-}
-</style>
-
-
 <h1 id="detailheader"> {{  car.brand }} {{ car.car_model }} </h1>
-<img id="detailimage" src="{{ car.car_image.url }}" alt="{{ car.color }} samochod">
 
-    <div style="height: auto; width: 35%">
-    <table id="detailtable">
+<section class="car_view">
+<img id="detailimage" src="{{ car.car_image.url }}" alt="{{ car.color }} samochod">
+  <section class="car_table">
+        <table class="table table-responsive table-bordered table-hover table-striped table-dark">
+      <tr>
+        <td><p class="text-center fs-3"><a href="{% url 'order' car.id %}">Zarezerwuj ten samochód</a></p></td>
+      </tr>
+
+    <table class="table table-responsive table-bordered table-hover table-striped table-dark">
 
       <tr>
         <td>Moc KM</td>
@@ -43,9 +41,9 @@ table, th, td {
       </tr>
 
     </table>
-    <a id="orderbutton" href="{% url 'order' car.id %}" class="btn btn-primary">Rezerwuj</a>
-
-</div>
+      <br>
+</section>
+</section>
 <div style="height:100vh"></div>
 </div>
 {% endblock %}

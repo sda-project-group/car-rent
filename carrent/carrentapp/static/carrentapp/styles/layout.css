@@ -67,6 +67,7 @@ text-transform: uppercase;
 .view {
 height: 1vh;
 }
+
 .aboutus-box h3 {
 	font-size: 2 rem ;
 	font-weight: bold;
@@ -107,10 +108,6 @@ height: 1vh;
 }
 
 
-footer {
-	font-size: 1.6rem;
-}
-
 .aboutus-hero {
 	background-image: url('../images/autostrada.jpg');
 	background-position: bottom;
@@ -144,7 +141,12 @@ footer {
 	height: 300px;
 	object-fit: cover;
 }
+.car_view {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 
+}
 
 @media (min-width: 992px) {
 	.aboutus-info .container {
@@ -174,9 +176,22 @@ footer {
 	}
 }
 
+.projects-hero {
+    background-position: center;
+}
 
+.projects img {
+    height: 240px;
+    object-fit: cover;
+}
 
-
+.projects .btn {
+    font-size: 2rem;
+    text-transform: uppercase;
+}
+footer {
+	font-size: 1.6rem;
+}
 
 #contact {
 text-align: center;
@@ -261,47 +276,4 @@ width: 0.2 vw;
   margin: 2%;
 }
 
-
-
-
-
- /*
-#header
-{
-  height: 80px;
-  text-align: center;
-  padding-top:20px;
-  padding-bottom:20px;
-}
-
-#footer
-{
-  border-top: 1px solid #999999;
-  margin-top:20px;
-  text-align:center;
-}
-#carobject{
-  width: 30%;
-  float: left;
-}
-
-#carlisttable{
-  float: left;
-  width: 40%;
-  margin-left: 2%;
-  margin-bottom: 2%;
-  margin-top: 2%;
-  font-size: 15px;
-  font-weight: bold;
-}
-#carlistphoto{
-  vertical-align: top;
-  float: right;
-  margin-top: 2%;
-  margin-left: 1%;
-  margin-right: 2%;
-  width: 55%;
-}
-
-*/
 
