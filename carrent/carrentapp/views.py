@@ -14,6 +14,7 @@ from .forms import LoginForm, RegistrationForm, UpdateUserForm, OrderDatePickFor
 from .models import BasePrice, Car, Order
 from .validators import order_date_validator, if_found_in_db
 
+
 def base_test_view(request):
     return render(request, 'carrentapp/base.html')
 
@@ -48,7 +49,7 @@ class RegisterView(View):
 class UpdateProfileUserView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user_form = UpdateUserForm(instance=request.user)
-        return render(request, 'carrentapp/profile.html', {'user_form': user_form} )
+        return render(request, 'carrentapp/profile.html', {'user_form': user_form})
 
     def post(self, request, *args, **kwargs):
         user_form = UpdateUserForm(request.POST, instance=request.user)
@@ -82,13 +83,13 @@ class CreateOrderView(CreateView):
             return redirect('order_msg', pk=objct.car.pk, msg=errors)
 
         colliding_entries = Order.objects.filter(
-                                                status='Aktywny',
-                                                car=objct.car,
-                                                start_date__range=(objct.start_date, objct.return_date)) |\
+                                status='Aktywny',
+                                car=objct.car,
+                                start_date__range=(objct.start_date, objct.return_date)) | \
                             Order.objects.filter(
-                                                status='Aktywny',
-                                                car=objct.car,
-                                                return_date__range=(objct.start_date, objct.return_date))
+                                status='Aktywny',
+                                car=objct.car,
+                                return_date__range=(objct.start_date, objct.return_date))
 
         errors = if_found_in_db(colliding_entries)
         if errors:
@@ -111,7 +112,8 @@ class ActualOrderView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs.filter(start_date__gt=datetime.date.today(), client=self.request.user)
+        return qs.filter(client=self.request.user).filter(start_date__lte=datetime.date.today()).filter(
+                         return_date__gte=datetime.date.today())
 
 
 class HistoryOrderView(LoginRequiredMixin, ListView):
@@ -125,7 +127,7 @@ class HistoryOrderView(LoginRequiredMixin, ListView):
 
 class FutureOrderView(LoginRequiredMixin, ListView):
     model = Order
-    template_name = 'carrentapp/order_history.html'
+    template_name = 'carrentapp/order_future.html'
 
     def get_queryset(self):
         qs = super().get_queryset()
