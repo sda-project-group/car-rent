@@ -21,7 +21,7 @@ class CustomLoginView(LoginView):
 class RegisterView(View):
     form_class = RegistrationForm
     initial = {'key': 'value'}
-    template_name = 'carrentapp/registration.html'
+    template_name = 'accounts/registration.html'
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
@@ -41,7 +41,7 @@ class RegisterView(View):
 class UpdateProfileUserView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         user_form = UpdateUserForm(instance=request.user)
-        return render(request, 'carrentapp/profile.html', {'user_form': user_form})
+        return render(request, 'accounts/profile.html', {'user_form': user_form})
 
     def post(self, request, *args, **kwargs):
         user_form = UpdateUserForm(request.POST, instance=request.user)
@@ -55,7 +55,7 @@ class UpdateProfileUserView(LoginRequiredMixin, View):
 
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
-    template_name = 'carrentapp/password_change.html'
+    template_name = 'accounts/password_change.html'
     success_message = "Hasło zostało zmienione"
     success_url = reverse_lazy('main')
 
