@@ -1,0 +1,61 @@
+{% extends 'carrentapp/base.html' %}
+{% block section_one %}
+<form method="post">{% csrf_token %}
+<h1>Czy chcesz wypożyczyć ten samochod: </h1>
+<h1>{{ request.session.car_brand }} {{ request.session.car_model }}</h1>
+
+   <section class="py-5 projects mb-5">
+      <div class="row">
+        <img id="detailimage" src="{{ request.session.car_image }}" alt="{{ car.color }} samochod">
+<div style="height: auto; width: 50%">
+<table class="table table-responsive table-bordered table-hover table-striped table-dark">
+
+  <tr>
+    <td>Moc KM</td>
+    <td>{{ request.session.car_engine_power }}</td>
+  </tr>
+  <tr>
+    <td>Silnik</td>
+    <td>{{ request.session.car_engine_type }}</td>
+  </tr>
+  <tr>
+    <td>Skrzynia biegów</td>
+    <td>{{ request.session.car_gearbox_type }}</td>
+  </tr>
+  <tr>
+    <td>Kolor</td>
+    <td>{{ request.session.car_color }}</td>
+  </tr>
+  <tr>
+    <td>Liczba miejsc</td>
+    <td>{{ request.session.car_number_of_seats }}</td>
+  </tr>
+  <tr>
+    <td>Rok produkcji</td>
+    <td>{{ request.session.car_year_of_production }}</td>
+  </tr>
+  <tr>
+    <td>Data odbioru</td>
+    <td style="color: #007bff">{{ request.session.start_date }}</td>
+  </tr>
+  <tr>
+    <td>Data zwrotu</td>
+    <td style="color: crimson">{{ request.session.return_date }}</td>
+  </tr>
+  <tr style="color: green">
+    <td>Koszt całkowity</td>
+    <td style="color: lawngreen">{{ request.session.total_cost }} PLN</td>
+  </tr>
+
+</table>
+    <input type="submit" value="Zamów" class="btn btn-dark btn-lg">
+    <a href="{% url 'car_detail' request.session.car_id %}" class="btn btn-dark btn-lg">Cofnij do Auta</a>
+</div>
+
+      </div>
+   </section>
+    <div style="visibility: hidden">{{ form }}</div>
+</form>
+
+<div style="height:100vh"></div>
+{% endblock %}
