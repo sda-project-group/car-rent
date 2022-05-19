@@ -3,10 +3,27 @@ from django import forms
 from .models import Order
 
 
-class OrderDatePickForm(forms.ModelForm):
+class OrderDateForm(forms.Form):
+    start_date = forms.DateField(required=True,
+                                 widget=forms.DateInput(attrs={'class': 'form-control',
+                                                               'type': 'date'})
+                                 )
+    return_date = forms.DateField(required=True,
+                                  widget=forms.DateInput(attrs={'class': 'form-control',
+                                                                'type': 'date'})
+                                  )
 
-    start_date = forms.DateField(required=True, widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
-    return_date = forms.DateField(required=True, widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
+
+class OrderCreationForm(forms.ModelForm):
+    start_date = forms.DateField(required=True,
+                                 disabled=True,
+                                 widget=forms.DateInput(attrs={'class': 'form-control',
+                                                               'type': 'date'})
+                                 )
+    return_date = forms.DateField(required=True,
+                                  disabled=True,
+                                  widget=forms.DateInput(attrs={'class': 'form-control',
+                                                                'type': 'date'}))
 
     class Meta:
         model = Order
