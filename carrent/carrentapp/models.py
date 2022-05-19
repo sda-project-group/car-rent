@@ -64,15 +64,6 @@ class Order(models.Model):
     car = models.ForeignKey(Car, verbose_name="Samochód", on_delete=models.PROTECT)
     base_price = models.ForeignKey(BasePrice, verbose_name="Cena bazowa", on_delete=models.PROTECT)
 
-    client_email = models.EmailField(verbose_name="E-mail", max_length=50, blank=True, null=True)
-    client_mobile = models.CharField(verbose_name="Nr telefonu", max_length=15, blank=True, null=True)
-    client_first_name = models.CharField(verbose_name="Imie", max_length=30, blank=True, null=True)
-    client_last_name = models.CharField(verbose_name="Nazwisko", max_length=50, blank=True, null=True)
-
-    car_plate_nr = models.CharField(max_length=20, verbose_name="Numer rejestracyjny", blank=True, null=True)
-    car_brand = models.CharField(verbose_name="Marka", max_length=30, blank=True, null=True)
-    car_model = models.CharField(verbose_name="Model", max_length=30, blank=True, null=True)
-
     rent_cost = models.IntegerField(verbose_name="Koszt wynajmu", blank=True, null=True)
     start_date = models.DateField(verbose_name="Start")
     return_date = models.DateField(verbose_name="Zwrot")
@@ -91,7 +82,7 @@ class Order(models.Model):
         verbose_name_plural = "Logi Wypozyczen"
 
     def __str__(self):
-        return f'{self.client_email} {self.car_plate_nr}'
+        return f'{self.client.email} {self.car.plate_number}'
 
     @property
     def cost_calculator(self):
@@ -100,12 +91,6 @@ class Order(models.Model):
         return nr_of_days.days * price_per_day
 
     def save(self, *args, **kwarg):
-        self.rent_cost = self.cost_calculator
-        self.client_email = self.client.email
-        self.client_mobile = self.client.mobile_nr
-        self.client_first_name = self.client.first_name
-        self.client_last_name = self.client.last_name
-        self.car_plate_nr = self.car.plate_number
-        self.car_brand = self.car.brand.brand_name
+
         self.car_model = self.car.car_model.model_name
         super(Order, self).save(*args, **kwarg)
