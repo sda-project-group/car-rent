@@ -83,8 +83,6 @@ class CreateOrderView(CreateView):
         return redirect('car_list')
 
 
-
-
 class ActualOrderView(LoginRequiredMixin, ListView):
     model = Order
     template_name = 'carrentapp/order_actual.html'
