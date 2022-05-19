@@ -91,6 +91,5 @@ class Order(models.Model):
         return nr_of_days.days * price_per_day
 
     def save(self, *args, **kwarg):
-
-        self.car_model = self.car.car_model.model_name
+        self.rent_cost = self.cost_calculator
         super(Order, self).save(*args, **kwarg)
