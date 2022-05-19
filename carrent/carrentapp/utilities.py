@@ -1,7 +1,7 @@
 
 
 def calculate_cost(start_date, return_date, base_price, car_rating):
-    """ Takes 2 datetime objects base price and a multiplayer (rating) and returns total cost (int)
+    """ Takes 2 datetime.date objects base price and a multiplayer (rating) and returns total cost (int)
 
         Mostly for order cost calculation
     """

@@ -1,5 +1,5 @@
 from django.core.exceptions import ValidationError
-from datetime import datetime
+from datetime import date
 
 from carrentapp.models import Order
 
@@ -19,7 +19,7 @@ def catch_validation_error(func):
 def order_date_validator(start_date, return_date):
     """ takes in 2 datetime.date objects and raises Validation error if below conditions are true"""
 
-    if start_date < datetime.now():
+    if start_date < date.today():
         raise ValidationError("Data wypożyczenia nie może być w przeszłości!")
 
     if return_date <= start_date:

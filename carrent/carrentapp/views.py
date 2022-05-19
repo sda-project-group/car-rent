@@ -22,9 +22,9 @@ class PickOrderDate(FormView):
 
     def form_valid(self, form):
         start_date = self.request.POST.get('start_date')
-        start_date_datetime = dt.strptime(start_date, '%Y-%m-%d')
+        start_date_datetime = dt.strptime(start_date, '%Y-%m-%d').date()
         return_date = self.request.POST.get('return_date')
-        return_date_datetime = dt.strptime(return_date, '%Y-%m-%d')
+        return_date_datetime = dt.strptime(return_date, '%Y-%m-%d').date()
 
         base_price = BasePrice.objects.get(id=1).base_price
         car = Car.objects.get(id=self.kwargs['pk'])
