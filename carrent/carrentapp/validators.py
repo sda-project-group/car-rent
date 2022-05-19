@@ -1,8 +1,7 @@
-#self created file to store custom validators
-
 from django.core.exceptions import ValidationError
-from django.shortcuts import redirect
 from datetime import date
+
+from carrentapp.models import Order
 
 
 def catch_validation_error(func):
@@ -28,7 +27,16 @@ def order_date_validator(start_date, return_date):
 
 
 @catch_validation_error
-def if_found_in_db(query_set):
-    if query_set:
+def if_entries_collide_error(start_date, return_date, car):
+    colliding_entries = Order.objects.filter(
+                            status='Aktywny',
+                            car=car,
+                            start_date__range=(start_date, return_date)) | \
+                        Order.objects.filter(
+                            status='Aktywny',
+                            car=car,
+                            return_date__range=(start_date, return_date))
+    if colliding_entries:
         raise ValidationError("Ten samochód jest niedostępny w tych terminach")
+
 

@@ -1,55 +1,86 @@
 import datetime
+from datetime import datetime as dt
 
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
-from django.urls import reverse
-from django.views.generic import CreateView, DeleteView, ListView
+from django.views.generic import CreateView, ListView, FormView
 
-from .forms import OrderDatePickForm
+from .forms import OrderDateForm, OrderCreationForm
 from .models import BasePrice, Car, Order
-from .validators import order_date_validator, if_found_in_db
+from .utilities import calculate_cost
+from .validators import order_date_validator, if_entries_collide_error
 
 
 def base_test_view(request):
     return render(request, 'carrentapp/base.html')
 
 
+class PickOrderDate(FormView):
+    form_class = OrderDateForm
+    template_name = 'carrentapp/order_form.html'
+
+
+    def form_valid(self, form):
+        start_date = self.request.POST.get('start_date')
+        start_date_datetime = dt.strptime(start_date, '%Y-%m-%d').date()
+        return_date = self.request.POST.get('return_date')
+        return_date_datetime = dt.strptime(return_date, '%Y-%m-%d').date()
+
+        base_price = BasePrice.objects.get(id=1).base_price
+        car = Car.objects.get(id=self.kwargs['pk'])
+        self.request.session['car_id'] = car.id
+        self.request.session['car_image'] = car.car_image.url
+        self.request.session['car_brand'] = car.brand.brand_name
+        self.request.session['car_model'] = car.car_model.model_name
+        self.request.session['car_engine_power'] = car.engine_power
+        self.request.session['car_engine_type'] = car.engine_type
+        self.request.session['car_gearbox_type'] = car.gearbox_type
+        self.request.session['car_color'] = car.color
+        self.request.session['car_number_of_seats'] = car.number_of_seats
+        self.request.session['car_year_of_production'] = car.year_of_production
+
+        self.request.session['start_date'] = start_date
+        self.request.session['return_date'] = return_date
+        self.request.session['base_price_value'] = base_price
+        self.request.session['total_cost'] = calculate_cost(start_date_datetime,
+                                                            return_date_datetime,
+                                                            base_price,
+                                                            car.rating)
+
+        errors = order_date_validator(start_date_datetime, return_date_datetime)
+        if errors:
+            return redirect('order_msg', pk=self.request.session.get('car_id'), msg=errors)
+
+        errors = if_entries_collide_error(start_date_datetime, return_date_datetime, car)
+        if errors:
+            return redirect('order_msg',  pk=self.request.session.get('car_id'), msg=errors)
+
+        return redirect('order_confirm')
+
+
 class CreateOrderView(CreateView):
     model = Order
-    form_class = OrderDatePickForm
+    form_class = OrderCreationForm
+    template_name = 'carrentapp/order_confirm.html'
+
+
+    def get_initial(self):
+        initial = super().get_initial()
+        initial = initial.copy()
+        initial['start_date'] = self.request.session.get('start_date')
+        initial['return_date'] = self.request.session.get('return_date')
+        return initial
+
 
     def form_valid(self, form):
         objct = form.save(commit=False)
         objct.client = self.request.user
-        objct.car = Car.objects.get(id=self.kwargs['pk'])
+        objct.car = Car.objects.get(id=self.request.session.get('car_id'))
         objct.base_price = BasePrice.objects.get(id=1)
-
-        errors = order_date_validator(objct.start_date, objct.return_date)
-        if errors:
-            return redirect('order_msg', pk=objct.car.pk, msg=errors)
-
-        colliding_entries = Order.objects.filter(
-                                status='Aktywny',
-                                car=objct.car,
-                                start_date__range=(objct.start_date, objct.return_date)) | \
-                            Order.objects.filter(
-                                status='Aktywny',
-                                car=objct.car,
-                                return_date__range=(objct.start_date, objct.return_date))
-
-        errors = if_found_in_db(colliding_entries)
-        if errors:
-            return redirect('order_msg', pk=objct.car.pk, msg=errors)
-
+        objct.start_date = dt.strptime(self.request.session.get('start_date'), '%Y-%m-%d').date()
+        objct.return_date = dt.strptime(self.request.session.get('return_date'), '%Y-%m-%d').date()
         objct.save()
-        return redirect('order_confirm', pk=objct.id)
-
-
-class OrderConfirmView(DeleteView):
-    model = Order
-
-    def get_success_url(self):
-        return reverse('car_detail', args=[self.object.car.id])
+        return redirect('car_list')
 
 
 class ActualOrderView(LoginRequiredMixin, ListView):
