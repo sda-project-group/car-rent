@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
-
+from .validators import validation_age
 from .forms import LoginForm, RegistrationForm, UpdateUserForm
 
 
@@ -39,19 +39,20 @@ class RegisterView(View):
 
 
 class UpdateProfileUserView(LoginRequiredMixin, View):
+
     def get(self, request, *args, **kwargs):
         user_form = UpdateUserForm(instance=request.user)
         return render(request, 'accounts/profile.html', {'user_form': user_form})
 
     def post(self, request, *args, **kwargs):
         user_form = UpdateUserForm(request.POST, instance=request.user)
-        print(request.POST)
+
         if user_form.is_valid():
             user_form.save()
             messages.success(request, 'Twój profil został pomyślnie zaktualizowany')
             return redirect(to='user-profile')
 
-        return HttpResponse(request.POST)
+        return render(request, 'accounts/profile.html', {'user_form': user_form})
 
 
 class ChangePasswordView(SuccessMessageMixin, PasswordChangeView):
