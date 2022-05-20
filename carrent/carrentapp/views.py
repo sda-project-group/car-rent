@@ -88,9 +88,9 @@ class ActualOrderView(LoginRequiredMixin, ListView):
     template_name = 'carrentapp/order_actual.html'
 
     def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.filter(client=self.request.user).filter(start_date__lte=datetime.date.today()).filter(
-                         return_date__gte=datetime.date.today())
+        qs = Order.objects.filter(client=self.request.user).filter(start_date__lte=datetime.date.today()).filter(
+                         return_date__gte=datetime.date.today()).select_related('car')
+        return qs
 
 
 class HistoryOrderView(LoginRequiredMixin, ListView):
@@ -98,8 +98,9 @@ class HistoryOrderView(LoginRequiredMixin, ListView):
     template_name = 'carrentapp/order_history.html'
 
     def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.filter(return_date__lt=datetime.date.today(), client=self.request.user)
+        qs = Order.objects.filter(return_date__lt=datetime.date.today(), client=self.request.user).select_related('car')
+        return qs
+
 
 
 class FutureOrderView(LoginRequiredMixin, ListView):
@@ -107,5 +108,5 @@ class FutureOrderView(LoginRequiredMixin, ListView):
     template_name = 'carrentapp/order_future.html'
 
     def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.filter(start_date__gt=datetime.date.today(), client=self.request.user)
+        qs = Order.objects.filter(start_date__gt=datetime.date.today(), client=self.request.user).select_related('car')
+        return qs

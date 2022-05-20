@@ -24,9 +24,9 @@
 
         {%  for order in order_list  %}
        <tr class="table-secondary">
-         <td> {{ order.car_brand }}  </td>
-         <td> {{ order.car_model }}  </td>
-         <td> {{ order.car_plate_nr }}  </td>
+         <td> {{ order.car.brand }}  </td>
+         <td> {{ order.car.car_model }}  </td>
+         <td> {{ order.car.plate_number }}  </td>
          <td> {{ order.start_date }}  </td>
          <td> {{ order.return_date }}  </td>
          <td> {{ order.rent_cost }}  </td>
