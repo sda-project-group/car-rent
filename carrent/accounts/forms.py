@@ -5,6 +5,9 @@ from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.db.transaction import atomic
+from django.core.validators import RegexValidator
+from .validators import validation_age
+import re
 
 
 class UserCreationForm(forms.ModelForm):
@@ -15,7 +18,9 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = get_user_model()
-        fields = ('email', 'username', 'first_name', 'last_name', 'birthdate', 'addr_city', 'addr_street', 'addr_post_code', 'mobile_nr')
+        fields = (
+            'email', 'username', 'first_name', 'last_name', 'birthdate', 'addr_city', 'addr_street', 'addr_post_code',
+            'mobile_nr')
 
     def clean_password2(self):
         """Check if the two password entries match"""
@@ -43,15 +48,17 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = get_user_model()
-        fields = ('email', 'username', 'first_name', 'last_name', 'birthdate', 'addr_city', 'addr_street', 'addr_post_code', 'mobile_nr', 'is_active', 'is_admin', 'is_staff')
+        fields = (
+            'email', 'username', 'first_name', 'last_name', 'birthdate', 'addr_city', 'addr_street', 'addr_post_code',
+            'mobile_nr', 'is_active', 'is_admin', 'is_staff')
 
 
 class LoginForm(AuthenticationForm):
     username = forms.EmailField(max_length=100,
-                               required=True,
-                               widget=forms.TextInput(attrs={'placeholder': 'e-mail',
-                                                             'class': 'form-control',
-                                                             }))
+                                required=True,
+                                widget=forms.TextInput(attrs={'placeholder': 'e-mail',
+                                                              'class': 'form-control',
+                                                              }))
     password = forms.CharField(max_length=50,
                                required=True,
                                widget=forms.PasswordInput(attrs={'placeholder': 'Hasło',
@@ -67,48 +74,59 @@ class LoginForm(AuthenticationForm):
 
 
 class RegistrationForm(UserCreationForm):
-
     email = forms.EmailField(required=True,
                              widget=forms.TextInput(attrs={'placeholder': 'Email',
                                                            'class': 'form-control',
                                                            }))
     username = forms.CharField(required=True,
-                                 widget=forms.TextInput(attrs={'placeholder': 'Nazwa użytkownika',
+                               widget=forms.TextInput(attrs={'placeholder': 'Nazwa użytkownika',
+                                                             'class': 'form-control',
+                                                             }))
+    first_name = forms.CharField(required=True,
+                                 widget=forms.TextInput(attrs={'placeholder': 'Imię',
                                                                'class': 'form-control',
                                                                }))
-    first_name = forms.CharField(required=True,
-                                widget=forms.TextInput(attrs={'placeholder': 'Imię',
-                                                           'class': 'form-control',
-                                                           }))
     last_name = forms.CharField(required=True,
                                 widget=forms.TextInput(attrs={'placeholder': 'Nazwisko',
-                                                           'class': 'form-control',
-                                                           }))
-    birthdate = forms.DateField(required=True,
+                                                              'class': 'form-control',
+                                                              }))
+    birthdate = forms.DateField(validators=[validation_age], required=True,
                                 widget=forms.TextInput(attrs={'placeholder': 'YYYY-MM-DD',
-                                                               'class': 'form-control',
-                                                               }))
+                                                              'class': 'form-control',
+                                                              }))
     addr_city = forms.CharField(required=True,
                                 widget=forms.TextInput(attrs={'placeholder': 'Miasto',
-                                                           'class': 'form-control',
-                                                           }))
+                                                              'class': 'form-control',
+                                                              }))
     addr_street = forms.CharField(required=True,
-                                widget=forms.TextInput(attrs={'placeholder': 'Ulica',
-                                                           'class': 'form-control',
-                                                           }))
+                                  widget=forms.TextInput(attrs={'placeholder': 'Ulica',
+                                                                'class': 'form-control',
+                                                                }))
     addr_post_code = forms.CharField(required=True,
-                                widget=forms.TextInput(attrs={'placeholder': 'Kod pocztowy',
-                                                           'class': 'form-control',
-                                                           }))
+                                     validators=[
+                                         RegexValidator(
+                                             regex=r'^[0-9]{2}-[0-9]{3}$',
+                                             message='Proszę wpisać kod pocztowy w formacie xx-xxx',
+                                         ),
+                                     ],
+                                     widget=forms.TextInput(attrs={'placeholder': 'Kod pocztowy',
+                                                                   'class': 'form-control',
+                                                                   }))
     mobile_nr = forms.CharField(required=True,
+                                validators=[
+                                    RegexValidator(
+                                        regex=r'^(?:\(?\?)?(?:[-\.\(\)\s]*(\d)){9}\)?$',
+                                        message='Proszę wpisać nr telefonu w formacie: xxx-xxx-xxx',
+                                    ),
+                                ],
                                 widget=forms.TextInput(attrs={'placeholder': 'Numer telefonu',
-                                                           'class': 'form-control',
-                                                           }))
-
+                                                              'class': 'form-control',
+                                                              }))
 
     class Meta:
         model = get_user_model()
-        fields = ('email', 'password1', 'password2', 'username', 'first_name', 'last_name', 'birthdate', 'addr_city', 'addr_street', 'addr_post_code', 'mobile_nr')
+        fields = ('email', 'password1', 'password2', 'username', 'first_name', 'last_name', 'birthdate', 'addr_city',
+                  'addr_street', 'addr_post_code', 'mobile_nr')
 
     @atomic
     def save(self, commit=True):
@@ -131,23 +149,35 @@ class RegistrationForm(UserCreationForm):
 
 class UpdateUserForm(forms.ModelForm):
     email = forms.EmailField(required=True,
-                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+                             widget=forms.TextInput(attrs={'class': 'form-control'}))
     username = forms.CharField(required=True,
-                             widget=forms.TextInput(attrs={'class': 'form-control'}))
+                               widget=forms.TextInput(attrs={'class': 'form-control'}))
     first_name = forms.CharField(required=True,
-                             widget=forms.TextInput(attrs={'class': 'form-control'}))
+                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(required=True,
-                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
+                                widget=forms.TextInput(attrs={'class': 'form-control'}))
     birthdate = forms.DateField(required=True,
-                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
+                                widget=forms.TextInput(attrs={'class': 'form-control'}))
     addr_city = forms.CharField(required=True,
-                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
+                                widget=forms.TextInput(attrs={'class': 'form-control'}))
     addr_street = forms.CharField(required=True,
-                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
+                                  widget=forms.TextInput(attrs={'class': 'form-control'}))
     addr_post_code = forms.CharField(required=True,
-                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
+                                     validators=[
+                                         RegexValidator(
+                                             regex=r'^[0-9]{2}-[0-9]{3}$',
+                                             message='Proszę wpisać kod pocztowy w formacie xx-xxx',
+                                         ),
+                                     ],
+                                     widget=forms.TextInput(attrs={'class': 'form-control'}))
     mobile_nr = forms.CharField(required=True,
-                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
+                                validators=[
+                                    RegexValidator(
+                                        regex=r'^(?:\(?\?)?(?:[-\.\(\)\s]*(\d)){9}\)?$',
+                                        message='Proszę wpisać nr telefonu w formacie: xxx-xxx-xxx',
+                                    ),
+                                ],
+                                widget=forms.TextInput(attrs={'class': 'form-control'}))
 
     class Meta:
         model = get_user_model()
