@@ -1,0 +1,50 @@
+{% extends 'carrentapp/base.html' %}
+
+{% block section_one %}
+
+<section class="top-hero projects-hero">
+    <p class="top-hero-text text-light">Nasze oddziały</p>
+    <div class="hero-shadow"></div>
+</section>
+
+
+<section class="py-5 projects mb-5">
+    <div class="container text-center py-5">
+        <p class="display-3">Sprawdź nasze oddziały</p>
+        <p>Każdy z naszych oddziałów jest czynny dla Ciebie 24h 7 dni w tygodniu!</p>
+    </div>
+</section>
+
+<div class="container h-100 d-flex flex-column align-items-center text-dark text-center">
+
+  <h2>Zaplanowane wypożyczenia</h2>
+         <div style="height:5vh"></div>
+<table class="table table-responsive table-bordered table-hover table-striped table-dark">
+    <thead>
+    <tr>
+      <th scope="col">Kraj</th>
+      <th scope="col">Miasto</th>
+      <th scope="col">Ulica</th>
+      <th scope="col">Kod pocztowy</th>
+      <th scope="col">Kierownik</th>
+    </tr>
+    </thead>
+    <body>
+
+        {%  for department in department_list  %}
+       <tr class="table-secendary">
+         <td> {{ department.addr_loc_country }}  </td>
+         <td> {{ department.addr_loc_city }}  </td>
+         <td> {{ department.addr_loc_street }}  </td>
+         <td> {{ department.addr_loc_post_code }}  </td>
+         <td> {{ department.bm_supervisor }}  </td>
+       </tr>
+        {% endfor %}
+
+    </body>
+
+</table>
+</div>
+{% endblock %}
+
+

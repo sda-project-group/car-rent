@@ -93,3 +93,19 @@ class Order(models.Model):
     def save(self, *args, **kwarg):
         self.rent_cost = self.cost_calculator
         super(Order, self).save(*args, **kwarg)
+        
+class Department(models.Model):
+    addr_loc_country = models.CharField(verbose_name="Kraj oddziału", max_length=50, choices=[('pl', "Polska")])
+    addr_loc_city = models.CharField(verbose_name="Miasto oddziału", max_length=50, choices=[('WAW', "Warszawa"), ('KRK', "Kraków"), ('KTW', "Katowice"), ('WRO', "Wrocław")])
+    addr_loc_street = models.CharField(verbose_name="Ulica", max_length=50)
+    addr_loc_post_code = models.CharField(verbose_name="Kod pocztowy", max_length=6)
+
+    # BranchManager information
+    bm_supervisor = models.ForeignKey(UserCustom, verbose_name="Kierownik", on_delete=models.PROTECT, related_name='+')
+
+    class Meta:
+        verbose_name = "Oddział"
+        verbose_name_plural = "Oddziały"
+
+    def __str__(self):
+        return f'{self.addr_loc_country} {self.addr_loc_city}  " - " {self.bm_supervisor} '
