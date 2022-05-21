@@ -5,7 +5,7 @@ from django.views.generic import ListView, DetailView, TemplateView
 
 
 from .views import base_test_view, CreateOrderView, FutureOrderView, HistoryOrderView, ActualOrderView, PickOrderDate
-from .models import Car
+from .models import Car, Department
 
 urlpatterns = [
     path('base-test/', base_test_view, name='zalogowany'),
@@ -20,5 +20,6 @@ urlpatterns = [
     path('order-actual/', ActualOrderView.as_view(), name='actual_order'),
     path('order-history/', HistoryOrderView.as_view(), name='history_order'),
     path('order-future/', FutureOrderView.as_view(), name='future_order'),
+    path('departments/', ListView.as_view(model=Department), name='department_list'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
