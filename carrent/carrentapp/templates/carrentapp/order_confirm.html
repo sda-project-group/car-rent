@@ -47,6 +47,8 @@
     <td style="color: lawngreen">{{ request.session.total_cost }} PLN</td>
   </tr>
 
+
+{% if request.user.is_authenticated %}
 </table>
     <input type="submit" value="Zamów" class="btn btn-dark btn-lg">
     <a href="{% url 'car_detail' request.session.car_id %}" class="btn btn-dark btn-lg">Cofnij do Auta</a>
@@ -55,6 +57,9 @@
       </div>
    </section>
     <div style="visibility: hidden">{{ form }}</div>
+              {% else %}
+            <a class="btn btn-dark btn-lg" href="{% url 'login' %}">Zaloguj aby wypożyczyć</a>
+                {% endif %}
 </form>
 
 <div style="height:100vh"></div>
