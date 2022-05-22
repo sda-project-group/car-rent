@@ -14,27 +14,27 @@
         <p>Każdy z naszych samochodów jest wyjątkowy. Łączy je jedno: są niezawodne!</p>
     </div>
 </section>
+
 <section>
 <form method="get">
     {{ filter.form.as_p }}
     <input type="submit" value="Filtruj"/>
 </form><br>
 {% for obj in filter.qs %}
-    {{ obj.brand }} {{ obj.car_model }} {{ obj.gearbox_type }} {{ obj.number_of_seats }} <br><br>
+
+<a href ="{% url 'car_detail' obj.id %}"><img src="{{ obj.car_image.url }}"></a> {{ obj.brand }} {{ obj.car_model }} {{ obj.gearbox_type }} {{ obj.number_of_seats }} <br><br>
 {% endfor %}
 </section>
 
 <section class="py-5 projects mb-5">
       <div class="row">
+        <div class="col-md-6 col-lg-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <p class="p-3">
           {% for car in car_list %}
 
-<div class="col-md-6 col-lg-4">
-    <div class="card mb-3">
-        <a href ="{% url 'car_detail' car.id %}"><img src="{{ car.car_image.url }}"></a>
-        <div class="card-body">
-            <p class="p-3">
-               <table class="table table-responsive table-bordered table-hover table-striped table-dark">
-          </tr>
+        <table class="table table-responsive table-bordered table-hover table-striped table-dark">
           <tr>
             <td>Marka</td>
             <td>{{ car.brand }}</td>
@@ -61,7 +61,7 @@
     </div>
 </div>
 
-    {% endfor %}
+{% endfor %}
  </section>
 </div>
 <div style="height:50vh"></div>
