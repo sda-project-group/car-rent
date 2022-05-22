@@ -80,7 +80,11 @@ class CreateOrderView(CreateView):
         objct.start_date = dt.strptime(self.request.session.get('start_date'), '%Y-%m-%d').date()
         objct.return_date = dt.strptime(self.request.session.get('return_date'), '%Y-%m-%d').date()
         objct.save()
-        return redirect('car_list')
+
+        if objct.start_date == datetime.date.today():
+            return redirect('actual_order')
+
+        return redirect('future_order')
 
 
 class ActualOrderView(LoginRequiredMixin, ListView):
