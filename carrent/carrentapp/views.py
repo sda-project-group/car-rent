@@ -2,10 +2,10 @@ import datetime
 from datetime import datetime as dt
 
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, redirect
-from django.views.generic import CreateView, ListView, FormView
+from django.shortcuts import render, redirect, reverse
+from django.views.generic import CreateView, ListView, FormView, UpdateView
 
-from .forms import OrderDateForm, OrderCreationForm
+from .forms import OrderDateForm, OrderCreationForm, OrderUpdateForm
 from .models import BasePrice, Car, Order
 from .utilities import calculate_cost
 from .validators import order_date_validator, if_entries_collide_error
@@ -68,6 +68,8 @@ class CreateOrderView(CreateView):
         initial = super().get_initial()
         initial = initial.copy()
         initial['start_date'] = self.request.session.get('start_date')
+        print(initial['start_date'])
+        print(type(initial['start_date']))
         initial['return_date'] = self.request.session.get('return_date')
         return initial
 
@@ -81,6 +83,43 @@ class CreateOrderView(CreateView):
         objct.return_date = dt.strptime(self.request.session.get('return_date'), '%Y-%m-%d').date()
         objct.save()
         return redirect('car_list')
+
+
+class OrderUptadeView(UpdateView):
+
+    template_name = 'carrentapp/order_update.html'
+    model = Order
+    form_class = OrderUpdateForm
+
+    def get_initial(self):
+        order = Order.objects.get(id=self.kwargs['pk'])
+        initial = super().get_initial()
+        initial = initial.copy()
+        initial['start_date'] = order.start_date
+        initial['start_date'] = initial['start_date'].strftime('%Y-%m-%d')
+        initial['return_date'] = order.return_date
+        initial['return_date'] = initial['return_date'].strftime('%Y-%m-%d')
+        return initial
+
+    def get_success_url(self):
+        return reverse('actual_order')
+
+    def form_valid(self, form):
+        start_date = self.request.POST.get('start_date')
+        start_date_datetime = dt.strptime(start_date, '%Y-%m-%d').date()
+        return_date = self.request.POST.get('return_date')
+        return_date_datetime = dt.strptime(return_date, '%Y-%m-%d').date()
+        order = Order.objects.get(id=self.kwargs['pk'])
+        car = order.car
+        errors = order_date_validator(start_date_datetime, return_date_datetime)
+        if errors:
+            return redirect('order_update_msg', pk=self.kwargs['pk'], msg=errors)
+
+        errors = if_entries_collide_error(start_date, return_date, car, order.id)
+        if errors:
+            return redirect('order_update_msg', pk=self.kwargs['pk'], msg=errors)
+        form.save()
+        return redirect('actual_order')
 
 
 class ActualOrderView(LoginRequiredMixin, ListView):
@@ -100,7 +139,6 @@ class HistoryOrderView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         qs = Order.objects.filter(return_date__lt=datetime.date.today(), client=self.request.user).select_related('car')
         return qs
-
 
 
 class FutureOrderView(LoginRequiredMixin, ListView):

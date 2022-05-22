@@ -1,0 +1,18 @@
+{% extends 'carrentapp/base.html' %}
+{% block section_one %}
+
+<form method="POST" novalidate>
+      <h1 style="color: blue">Możesz zmienić termin:</h1>
+      <p>{{ request.user }} wypożyczył {{ order.car.brand }} {{ order.car.car_model }} w terminie:</p>
+      <p style="color: red">{{ view.kwargs.msg }}</p>
+     <section class="py-5 projects mb-5">
+    <table class="table table-responsive table-bordered table-hover table-striped table-dark" >
+      {{ form }}
+  </table>
+    <button name="dodaj" class="btn btn-dark btn-lg">Zmień</button>
+    {% csrf_token %}
+
+</section>
+    </form>
+<div style="height:100vh"></div>
+{% endblock %}

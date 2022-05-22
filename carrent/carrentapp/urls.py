@@ -4,7 +4,7 @@ from django.urls import path
 from django.views.generic import ListView, DetailView, TemplateView
 
 
-from .views import base_test_view, CreateOrderView, FutureOrderView, HistoryOrderView, ActualOrderView, PickOrderDate
+from .views import base_test_view, CreateOrderView, FutureOrderView, HistoryOrderView, ActualOrderView, PickOrderDate, OrderUptadeView
 from .models import Car
 
 urlpatterns = [
@@ -20,5 +20,8 @@ urlpatterns = [
     path('order-actual/', ActualOrderView.as_view(), name='actual_order'),
     path('order-history/', HistoryOrderView.as_view(), name='history_order'),
     path('order-future/', FutureOrderView.as_view(), name='future_order'),
+    path('order-update/<int:pk>', OrderUptadeView.as_view(), name='order_update'),
+    path('order-update/<int:pk>/<str:msg>/', OrderUptadeView.as_view(), name='order_update_msg'),
+
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

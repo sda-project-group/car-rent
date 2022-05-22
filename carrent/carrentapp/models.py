@@ -82,7 +82,7 @@ class Order(models.Model):
         verbose_name_plural = "Logi Wypozyczen"
 
     def __str__(self):
-        return f'{self.client.email} {self.car.plate_number}'
+        return f'{self.client.email} {self.car.plate_number} =>ID {self.id}'
 
     @property
     def cost_calculator(self):

@@ -24,7 +24,7 @@
 
         {%  for order in order_list  %}
        <tr class="table-secendary">
-         <td> {{ order.car.brand }}  </td>
+         <td> <a href ="{% url 'order_update' order.id %}">{{ order.car.brand }}</a></td>
          <td> {{ order.car.car_model }}  </td>
          <td> {{ order.car.plate_number }}  </td>
          <td> {{ order.start_date }}  </td>
