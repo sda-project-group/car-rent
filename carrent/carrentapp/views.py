@@ -1,6 +1,7 @@
 import datetime
 from datetime import datetime as dt
 
+import django_filters
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, ListView, FormView
@@ -110,3 +111,16 @@ class FutureOrderView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         qs = Order.objects.filter(start_date__gt=datetime.date.today(), client=self.request.user).select_related('car')
         return qs
+
+
+class CarFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = Car
+        fields = ['brand', 'car_model', 'gearbox_type', 'number_of_seats']
+
+
+def car_list_view(request):
+    f = CarFilter(request.GET, queryset=Car.objects.all())
+    return render(request, 'carrentapp/car_list.html', {'filter': f})
+

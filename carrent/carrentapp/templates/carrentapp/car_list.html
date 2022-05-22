@@ -14,9 +14,17 @@
         <p>Każdy z naszych samochodów jest wyjątkowy. Łączy je jedno: są niezawodne!</p>
     </div>
 </section>
+<section>
+<form method="get">
+    {{ filter.form.as_p }}
+    <input type="submit" value="Filtruj"/>
+</form><br>
+{% for obj in filter.qs %}
+    {{ obj.brand }} {{ obj.car_model }} {{ obj.gearbox_type }} {{ obj.number_of_seats }} <br><br>
+{% endfor %}
+</section>
 
-
- <section class="py-5 projects mb-5">
+<section class="py-5 projects mb-5">
       <div class="row">
           {% for car in car_list %}
 
