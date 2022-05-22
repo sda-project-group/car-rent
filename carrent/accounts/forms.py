@@ -156,7 +156,7 @@ class UpdateUserForm(forms.ModelForm):
                                  widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(required=True,
                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
-    birthdate = forms.DateField(required=True,
+    birthdate = forms.DateField(validators=[validation_age], required=True,
                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
     addr_city = forms.CharField(required=True,
                                 widget=forms.TextInput(attrs={'class': 'form-control'}))

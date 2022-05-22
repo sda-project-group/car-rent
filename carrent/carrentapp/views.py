@@ -99,6 +99,7 @@ class HistoryOrderView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         qs = Order.objects.filter(return_date__lt=datetime.date.today(), client=self.request.user).select_related('car')
+
         return qs
 
 
