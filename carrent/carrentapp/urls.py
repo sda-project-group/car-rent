@@ -4,7 +4,7 @@ from django.urls import path
 from django.views.generic import ListView, DetailView, TemplateView
 
 
-from .views import base_test_view, CreateOrderView, FutureOrderView, HistoryOrderView, ActualOrderView, PickOrderDate, OrderUptadeView
+from .views import base_test_view, CreateOrderView, FutureOrderView, HistoryOrderView, ActualOrderView, PickOrderDate, OrderUptadeView, OrderDeleteView, OrderDetailView
 from .models import Car
 
 urlpatterns = [
@@ -17,6 +17,8 @@ urlpatterns = [
     path('order/<int:pk>/', PickOrderDate.as_view(), name='order'),
     path('order/<int:pk>/<str:msg>/', PickOrderDate.as_view(), name='order_msg'),
     path('order-confirm/', CreateOrderView.as_view(), name='order_confirm'),
+    path('order-detail/<int:pk>/', OrderDetailView.as_view(), name='order_detail'),
+    path('order-delete/<int:pk>/', OrderDeleteView.as_view(), name='order_delete'),
     path('order-actual/', ActualOrderView.as_view(), name='actual_order'),
     path('order-history/', HistoryOrderView.as_view(), name='history_order'),
     path('order-future/', FutureOrderView.as_view(), name='future_order'),

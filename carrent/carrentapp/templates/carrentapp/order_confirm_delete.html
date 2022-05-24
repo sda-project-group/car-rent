@@ -1,0 +1,69 @@
+{% extends 'carrentapp/base.html' %}
+{% block section_one %}
+<body>
+<form method="post">{% csrf_token %}
+
+{% if object.is_future %}
+    <h1 style="color: red">Czy na pewno chcesz usunąć to zamówienie?: </h1>
+{% else %}
+    <h1 style="color: red">Ups... Nie powinieneś tu być! </h1>
+{% endif %}
+    <h2 style="color: green; font-size: 5rem ">{{ object.car.brand.brand_name }} {{ object.car.car_model }}</h2>
+    <img alt="car" id="detailimage" src="{{ object.car.car_image.url }}">
+<div style="height: auto; width: 50%">
+<table id="detailtable">
+
+  <tr>
+    <td>Moc KM</td>
+    <td>{{ object.car.engine_power }}</td>
+  </tr>
+  <tr>
+    <td>Silnik</td>
+    <td>{{ object.car.engine_type }}</td>
+  </tr>
+  <tr>
+    <td>Skrzynia biegów</td>
+    <td>{{ object.car.gearbox_type }}</td>
+  </tr>
+  <tr>
+    <td>Kolor</td>
+    <td>{{ object.car.color }}</td>
+  </tr>
+  <tr>
+    <td>Liczba miejsc</td>
+    <td>{{ object.car.number_of_seats }}</td>
+  </tr>
+  <tr>
+    <td>Rok produkcji</td>
+    <td>{{ object.car.year_of_production }}</td>
+  </tr>
+  <tr style="color: blue">
+    <td>Data odbioru</td>
+    <td>{{ object.start_date }}</td>
+  </tr>
+  <tr style="color: darkblue">
+    <td>Data zwrotu</td>
+    <td>{{ object.return_date }}</td>
+  </tr>
+  <tr style="color: green">
+    <td>Koszt całkowity</td>
+    <td>{{ object.rent_cost }}</td>
+  </tr>
+
+</table>
+    {% if object.is_past %}
+    <a href="{% url 'history_order' %}" class="btn btn-dark btn-lg">Cofnij do historii zamówien</a>
+    <input type="submit" value="Potwierdź usunięcie" class="btn btn-danger btn-lg disabled">
+    <p style="color: brown; font-size: 2rem">Usuwanie minionych zamówień jest zabronione </p>
+    {% elif object.is_future %}
+        <a href="{% url 'future_order' %}" class="btn btn-dark btn-lg">Cofnij do zaplanowanych zamówien</a>
+        <input type="submit" value="Potwierdź usunięcie" class="btn btn-danger btn-lg">
+    {% else %}
+        <a href="{% url 'actual_order' %}" class="btn btn-dark btn-lg">Cofnij do aktuanych zamówien</a>
+        <input type="submit" value="Potwierdź usunięcie" class="btn btn-danger btn-lg disabled">
+    <p style="color: brown; font-size: 2rem">Usuwanie rozpoczętych zamówień jest zabronione </p>
+    {% endif %}
+</div>
+</form>
+</body>
+{% endblock %}

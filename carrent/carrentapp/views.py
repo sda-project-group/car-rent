@@ -2,10 +2,12 @@ import datetime
 from datetime import datetime as dt
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ImproperlyConfigured
 from django.shortcuts import render, redirect, reverse
-from django.views.generic import CreateView, ListView, FormView, UpdateView
+from django.views.generic import CreateView, ListView, FormView, UpdateView, DeleteView, DetailView
+from django.forms import modelform_factory
 
-from .forms import OrderDateForm, OrderCreationForm, OrderUpdateForm
+from .forms import OrderDateForm, OrderCreationForm, OrderUpdateForm, OrderUpdateFormBlocked
 from .models import BasePrice, Car, Order
 from .utilities import calculate_cost
 from .validators import order_date_validator, if_entries_collide_error
@@ -82,7 +84,7 @@ class CreateOrderView(CreateView):
         objct.start_date = dt.strptime(self.request.session.get('start_date'), '%Y-%m-%d').date()
         objct.return_date = dt.strptime(self.request.session.get('return_date'), '%Y-%m-%d').date()
         objct.save()
-        return redirect('car_list')
+        return redirect('actual_order')
 
 
 class OrderUptadeView(UpdateView):
@@ -90,6 +92,39 @@ class OrderUptadeView(UpdateView):
     template_name = 'carrentapp/order_update.html'
     model = Order
     form_class = OrderUpdateForm
+    form_class_2 = OrderUpdateFormBlocked
+
+    def get_form_class(self):
+        order = Order.objects.get(id=self.kwargs['pk'])
+        """Return the form class to use in this view."""
+        if self.fields is not None and self.form_class:
+            raise ImproperlyConfigured(
+                "Specifying both 'fields' and 'form_class' is not permitted."
+            )
+        if self.form_class and order.is_future:
+            return self.form_class
+        elif self.form_class and not order.is_past:
+            return self.form_class_2
+        else:
+            if order.is_past:
+                return self.form_class_2
+            if self.model is not None:
+                # If a model has been explicitly provided, use it
+                model = self.model
+            elif getattr(self, 'object', None) is not None:
+                # If this view is operating on a single object, use
+                # the class of that object
+                model = self.object.__class__
+            else:
+                # Try to get a queryset and extract the model class
+                # from that
+                model = self.get_queryset().model
+            if self.fields is None:
+                raise ImproperlyConfigured(
+                    "Using ModelFormMixin (base class of %s) without "
+                    "the 'fields' attribute is prohibited." % self.__class__.__name__
+                )
+            return modelform_factory(model, fields=self.fields)
 
     def get_initial(self):
         order = Order.objects.get(id=self.kwargs['pk'])
@@ -105,21 +140,44 @@ class OrderUptadeView(UpdateView):
         return reverse('actual_order')
 
     def form_valid(self, form):
+        option = None
+        order = Order.objects.get(id=self.kwargs['pk'])
+        car = order.car
         start_date = self.request.POST.get('start_date')
+        if start_date is None:
+            start_date = order.start_date.strftime('%Y-%m-%d')
+            option = 'only_longer'
         start_date_datetime = dt.strptime(start_date, '%Y-%m-%d').date()
         return_date = self.request.POST.get('return_date')
         return_date_datetime = dt.strptime(return_date, '%Y-%m-%d').date()
-        order = Order.objects.get(id=self.kwargs['pk'])
-        car = order.car
-        errors = order_date_validator(start_date_datetime, return_date_datetime)
+
+        errors = order_date_validator(start_date_datetime, return_date_datetime, option=option, option_value=order.return_date)
         if errors:
             return redirect('order_update_msg', pk=self.kwargs['pk'], msg=errors)
 
         errors = if_entries_collide_error(start_date, return_date, car, order.id)
         if errors:
             return redirect('order_update_msg', pk=self.kwargs['pk'], msg=errors)
+
         form.save()
-        return redirect('actual_order')
+        if option == 'only_longer':
+            return redirect('actual_order')
+
+        return redirect('future_order')
+
+
+class OrderDeleteView(DeleteView):
+    model = Order
+
+    def get_success_url(self):
+        return reverse('actual_order')
+
+
+class OrderDetailView(DetailView):
+    model = Order
+
+    def get_success_url(self):
+        return reverse('actual_order')
 
 
 class ActualOrderView(LoginRequiredMixin, ListView):

@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.db import models
 from accounts.models import UserCustom
 
@@ -29,6 +31,7 @@ class Car(models.Model):
     plate_number = models.CharField(max_length=20, verbose_name="Numer rejestracyjny", unique=True)
     brand = models.ForeignKey(CarBrand, verbose_name="Marka", on_delete=models.PROTECT)
     car_model = models.ForeignKey(CarModel, verbose_name="Model", on_delete=models.PROTECT)
+
     year_of_production = models.IntegerField(verbose_name="Rok produkcji")
     rating = models.FloatField(verbose_name="Ocena")
     number_of_seats = models.IntegerField(verbose_name="Ilość miejsc")
@@ -89,6 +92,20 @@ class Order(models.Model):
         nr_of_days = self.return_date - self.start_date
         price_per_day = self.base_price.base_price * self.car.rating
         return nr_of_days.days * price_per_day
+
+    @property
+    def is_future(self):
+        if self.start_date > date.today():
+            return True
+        else:
+            return False
+
+    @property
+    def is_past(self):
+        if self.return_date < date.today():
+            return True
+        else:
+            return False
 
     def save(self, *args, **kwarg):
         self.rent_cost = self.cost_calculator

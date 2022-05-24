@@ -2,10 +2,11 @@
 {% block section_one %}
 
 <form method="POST" novalidate>
-      <p>{{ request.user }}</p>
+      <p style="font-size: 2.5rem">Witaj {{ request.user.username }}</p>
+      <h1>Proszę wybrać datę odbioru i zwrotu samochodu</h1>
       <p style="color: red">{{ view.kwargs.msg }}</p>
      <section class="py-5 projects mb-5">
-    <table class="table table-responsive table-bordered table-hover table-striped table-dark" >
+    <table class="table table-responsive table-bordered table-hover table-striped table-dark" style="width: 25% " >
       {{ form }}
   </table>
     <button name="dodaj" class="btn btn-dark btn-lg">Dodaj</button>

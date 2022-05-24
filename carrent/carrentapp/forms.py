@@ -42,3 +42,16 @@ class OrderUpdateForm(forms.ModelForm):
     class Meta:
         model = Order
         fields = ['start_date', 'return_date']
+
+
+class OrderUpdateFormBlocked(OrderUpdateForm):
+
+    start_date = forms.DateField(required=True,
+                                 disabled=True,
+                                 widget=forms.DateInput(attrs={'class': 'form-control',
+                                                               'type': 'date'})
+                                 )
+
+    class Meta:
+        model = Order
+        fields = ['start_date', 'return_date']
