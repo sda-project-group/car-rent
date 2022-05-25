@@ -4,42 +4,39 @@
 
 <div class="container h-100 d-flex flex-column align-items-center text-dark text-center">
     {% if order_list.count < 1 %}
-    <div style="height:15vh"></div>
-    <h2>Brak wyników do wyświetlenia</h2>
+        <div style="height:15vh"></div>
+        <h2>Brak wyników do wyświetlenia</h2>
     {% else %}
-  <h2>Historia Twoich zamówień</h2>
-         <div style="height:5vh"></div>
-<table class="table table-responsive table-bordered table-hover table-striped table-dark">
-    <thead>
-    <tr>
-      <th scope="col">Marka samochodu</th>
-      <th scope="col">Model samochodu</th>
-      <th scope="col">Numer rejestracyjny</th>
-      <th scope="col">Data wypożyczenia</th>
-      <th scope="col">Data zwrotu</th>
-      <th scope="col">Koszt wypożyczenia</th>
-      <th scope="col"></th>
-    </tr>
-    </thead>
-    <body>
-
-        {%  for order in order_list  %}
-       <tr class="table-primary">
-         <td> {{ order.car.brand }}  </td>
-         <td> {{ order.car.car_model }}  </td>
-         <td> {{ order.car.plate_number }}  </td>
-         <td> {{ order.start_date }}  </td>
-         <td> {{ order.return_date }}  </td>
-         <td> {{ order.rent_cost }}  </td>
-         <td> <a href ="{% url 'order_detail' order.id %}" class="btn btn-info text-nowrap">Szczegóły</a></td>
-       </tr>
-        {% endfor %}
-
-    </body>
-
-</table>
+        <h2>Historia Twoich zamówień</h2>
+        <div style="height:5vh"></div>
+    <table class="table table-responsive table-bordered table-hover table-striped table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Marka samochodu</th>
+                <th scope="col">Model samochodu</th>
+                <th scope="col">Numer rejestracyjny</th>
+                <th scope="col">Data wypożyczenia</th>
+                <th scope="col">Data zwrotu</th>
+                <th scope="col">Koszt wypożyczenia</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <body>
+            {%  for order in order_list  %}
+               <tr class="table-primary">
+                    <td> {{ order.car.brand }}  </td>
+                    <td> {{ order.car.car_model }}  </td>
+                    <td> {{ order.car.plate_number }}  </td>
+                    <td> {{ order.start_date }}  </td>
+                    <td> {{ order.return_date }}  </td>
+                    <td> {{ order.rent_cost }}  </td>
+                    <td> <a href ="{% url 'order_detail' order.id %}" class="btn btn-info text-nowrap">Szczegóły</a></td>
+               </tr>
+            {% endfor %}
+        </body>
+    </table>
+    {% endif %}
 </div>
-{% endif %}
 <div style="height:150vh"></div>
 </div>
 {% endblock %}

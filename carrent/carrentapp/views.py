@@ -7,10 +7,10 @@ from django.shortcuts import render, redirect, reverse
 from django.views.generic import CreateView, ListView, FormView, UpdateView, DeleteView, DetailView
 from django.forms import modelform_factory
 
-from .forms import OrderDateForm, OrderCreationForm, OrderUpdateForm, OrderUpdateFormBlocked
-from .models import BasePrice, Car, Order
-from .utilities import calculate_cost
-from .validators import order_date_validator, if_entries_collide_error
+from carrentapp.forms import OrderDateForm, OrderCreationForm, OrderUpdateForm, OrderUpdateFormBlocked
+from carrentapp.models import BasePrice, Car, Order
+from carrentapp.utilities import calculate_cost
+from carrentapp.validators import order_date_validator, if_entries_collide_error
 
 
 def base_test_view(request):
@@ -109,15 +109,10 @@ class OrderUptadeView(UpdateView):
             if order.is_past:
                 return self.form_class_2
             if self.model is not None:
-                # If a model has been explicitly provided, use it
                 model = self.model
             elif getattr(self, 'object', None) is not None:
-                # If this view is operating on a single object, use
-                # the class of that object
                 model = self.object.__class__
             else:
-                # Try to get a queryset and extract the model class
-                # from that
                 model = self.get_queryset().model
             if self.fields is None:
                 raise ImproperlyConfigured(
@@ -151,7 +146,10 @@ class OrderUptadeView(UpdateView):
         return_date = self.request.POST.get('return_date')
         return_date_datetime = dt.strptime(return_date, '%Y-%m-%d').date()
 
-        errors = order_date_validator(start_date_datetime, return_date_datetime, option=option, option_value=order.return_date)
+        errors = order_date_validator(start_date_datetime,
+                                      return_date_datetime,
+                                      option=option,
+                                      option_value=order.return_date)
         if errors:
             return redirect('order_update_msg', pk=self.kwargs['pk'], msg=errors)
 

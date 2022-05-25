@@ -5,31 +5,34 @@
         {% if order.is_past %}
             <p style="font-size:  3rem; color: red">Nie powinineś się tu znaleźć {{ request.user.username }}!</p>
         {% else %}
-        <p style="font-size:  3rem; color: blue">Witaj {{ request.user.username }}!</p>
-        <h1 style="color: blue">Możesz zmienić termin zamówienia:</h1>
-        <p style="font-size:  2rem">Zamówiłeś samochód {{ order.car.brand }} {{ order.car.car_model }} - kolor: {{ order.car.color }} </p>
-        <p>w terminie: {{ order.start_date }} - {{ order.return_date }}</p>
+            <p style="font-size:  3rem; color: blue">Witaj {{ request.user.username }}!</p>
+            <h1 style="color: blue">Możesz zmienić termin zamówienia:</h1>
+            <p style="font-size:  2rem">Zamówiłeś samochód {{ order.car.brand }} {{ order.car.car_model }} - kolor: {{ order.car.color }} </p>
+            <p>w terminie: {{ order.start_date }} - {{ order.return_date }}</p>
         {% endif %}
-        <p style="color: red">{{ view.kwargs.msg }}</p>
+
+    <p style="color: red">{{ view.kwargs.msg }}</p>
+
     <section class="py-5 projects mb-5">
-    <table class="table table-responsive table-bordered table-hover table-striped table-dark" style="width: 25% " >
-    {% if order.is_past %}
-        <p style="color: rebeccapurple;font-size: 2rem">Edycja minionych zamówień nie jest dozwolona </p>
-    {% else %}
-        {{ form }}
-    {% endif %}
-    </table>
-    {% if order.is_future %}
-        <a href="{% url 'future_order' %}" class="btn btn-dark btn-lg">Cofnij</a>
-        <button name="dodaj" class="btn btn-success btn-lg">Zatwierdź nowy termin</button>
-    {% elif order.is_past %}
-        <a href="{% url 'history_order' %}" class="btn btn-dark btn-lg">Cofnij</a>
-    {% else %}
-        <a href="{% url 'actual_order' %}" class="btn btn-dark btn-lg">Cofnij</a>
-        <button name="dodaj" class="btn btn-success btn-lg">Zatwierdź nowy termin</button>
-    {% endif %}
-    {% csrf_token %}
-</section>
-    </form>
+        <table class="table table-responsive table-bordered table-hover table-striped table-dark" style="width: 25% " >
+            {% if order.is_past %}
+                <p style="color: rebeccapurple;font-size: 2rem">Edycja minionych zamówień nie jest dozwolona </p>
+            {% else %}
+                {{ form }}
+            {% endif %}
+        </table>
+
+        {% if order.is_future %}
+            <a href="{% url 'future_order' %}" class="btn btn-dark btn-lg">Cofnij</a>
+            <button name="dodaj" class="btn btn-success btn-lg">Zatwierdź nowy termin</button>
+        {% elif order.is_past %}
+            <a href="{% url 'history_order' %}" class="btn btn-dark btn-lg">Cofnij</a>
+        {% else %}
+            <a href="{% url 'actual_order' %}" class="btn btn-dark btn-lg">Cofnij</a>
+            <button name="dodaj" class="btn btn-success btn-lg">Zatwierdź nowy termin</button>
+        {% endif %}
+        {% csrf_token %}
+    </section>
+</form>
 <div style="height:100vh"></div>
 {% endblock %}

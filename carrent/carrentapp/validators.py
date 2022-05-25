@@ -1,5 +1,6 @@
-from django.core.exceptions import ValidationError
 from datetime import date
+
+from django.core.exceptions import ValidationError
 
 from carrentapp.models import Order
 
@@ -23,7 +24,8 @@ def order_date_validator(start_date, return_date, option=None, option_value=None
     also takes an optional argument option in str format: possible options: 'only_longer'
     """
 
-    if start_date < date.today():
+    if start_date < date.today() and option is None:
+        print(option)
         raise ValidationError("Data wypożyczenia nie może być w przeszłości!")
 
     if return_date <= start_date:

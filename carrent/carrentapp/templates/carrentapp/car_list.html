@@ -25,37 +25,33 @@
         <a href ="{% url 'car_detail' car.id %}"><img src="{{ car.car_image.url }}"></a>
         <div class="card-body">
             <p class="p-3">
-               <table class="table table-responsive table-bordered table-hover table-striped table-dark">
-          </tr>
-          <tr>
-            <td>Marka</td>
-            <td>{{ car.brand }}</td>
-          </tr>
-          <tr>
-            <td>Model</td>
-            <td>{{ car.car_model }}</td>
-          </tr>
-          <tr>
-            <td>Skrzynia biegów</td>
-            <td>{{ car.gearbox_type }}</td>
-          </tr>
-          <tr>
-            <td>Liczba miejsc</td>
-            <td>{{ car.number_of_seats }}</td>
-          </tr>
-
-        </table>
+                <table class="table table-responsive table-bordered table-hover table-striped table-dark">
+                    <tr>
+                        <td>Marka</td>
+                        <td>{{ car.brand }}</td>
+                    </tr>
+                    <tr>
+                        <td>Model</td>
+                        <td>{{ car.car_model }}</td>
+                    </tr>
+                    <tr>
+                        <td>Skrzynia biegów</td>
+                        <td>{{ car.gearbox_type }}</td>
+                    </tr>
+                    <tr>
+                        <td>Liczba miejsc</td>
+                        <td>{{ car.number_of_seats }}</td>
+                    </tr>
+                </table>
             </p>
             <div class="d-flex align-items-center justify-content-between">
-         <a href="{% url 'car_detail' car.id %}" class="btn btn-outline-dark px-4" role="button">Wypożycz</a>
+                <a href="{% url 'car_detail' car.id %}" class="btn btn-outline-dark px-4" role="button">Wypożycz</a>
             </div>
         </div>
     </div>
 </div>
 
-    {% endfor %}
- </section>
-</div>
+{% endfor %}
+</section>
 <div style="height:50vh"></div>
-
 {% endblock %}

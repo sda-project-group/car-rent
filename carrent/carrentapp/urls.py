@@ -4,8 +4,10 @@ from django.urls import path
 from django.views.generic import ListView, DetailView, TemplateView
 
 
-from .views import base_test_view, CreateOrderView, FutureOrderView, HistoryOrderView, ActualOrderView, PickOrderDate, OrderUptadeView, OrderDeleteView, OrderDetailView
-from .models import Car
+from carrentapp.views import base_test_view, CreateOrderView, FutureOrderView,\
+                                HistoryOrderView, ActualOrderView, PickOrderDate,\
+                                OrderUptadeView, OrderDeleteView, OrderDetailView
+from carrentapp.models import Car
 
 urlpatterns = [
     path('base-test/', base_test_view, name='zalogowany'),

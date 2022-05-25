@@ -2,50 +2,47 @@
 {% load static %}
 
 {% block section_one %}
-
 <h1 id="detailheader"> {{  car.brand }} {{ car.car_model }} </h1>
-
 <section class="car_view">
 <img id="detailimage" src="{{ car.car_image.url }}" alt="{{ car.color }} samochod">
-  <section class="car_table">
+    <section class="car_table">
         <table class="table table-responsive table-bordered table-hover table-striped table-dark">
-      <tr>
-        <td><a href="{% url 'order' car.id %}" class="btn btn-success d-md-block">Zarezerwuj ten samochód</a></td>
-      </tr>
+            <tr>
+            <td><a href="{% url 'order' car.id %}" class="btn btn-success d-md-block">Zarezerwuj ten samochód</a></td>
+            </tr>
+        </table>
+        <table class="table table-responsive table-bordered table-hover table-striped table-dark">
 
-    <table class="table table-responsive table-bordered table-hover table-striped table-dark">
+        <tr>
+            <td>Moc KM</td>
+            <td>{{ car.engine_power }}</td>
+        </tr>
+        <tr>
+            <td>Silnik</td>
+            <td>{{ car.engine_type }}</td>
+        </tr>
+        <tr>
+            <td>Skrzynia biegów</td>
+            <td>{{ car.gearbox_type }}</td>
+        </tr>
+        <tr>
+            <td>Kolor</td>
+            <td>{{ car.color }}</td>
+        </tr>
+        <tr>
+            <td>Liczba miejsc</td>
+            <td>{{ car.number_of_seats }}</td>
+        </tr>
+        <tr>
+            <td>Rok produkcji</td>
+            <td>{{ car.year_of_production }}</td>
+        </tr>
 
-      <tr>
-        <td>Moc KM</td>
-        <td>{{ car.engine_power }}</td>
-      </tr>
-      <tr>
-        <td>Silnik</td>
-        <td>{{ car.engine_type }}</td>
-      </tr>
-      <tr>
-        <td>Skrzynia biegów</td>
-        <td>{{ car.gearbox_type }}</td>
-      </tr>
-      <tr>
-        <td>Kolor</td>
-        <td>{{ car.color }}</td>
-      </tr>
-      <tr>
-        <td>Liczba miejsc</td>
-        <td>{{ car.number_of_seats }}</td>
-      </tr>
-      <tr>
-        <td>Rok produkcji</td>
-        <td>{{ car.year_of_production }}</td>
-      </tr>
-
-    </table>
+        </table>
       <br>
-</section>
+    </section>
 </section>
 <div style="height:100vh"></div>
-</div>
 {% endblock %}
 
 

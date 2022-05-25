@@ -1,25 +1,22 @@
 from django import forms
 
-from .models import Order
+from carrentapp.models import Order
 
 
 class OrderDateForm(forms.Form):
     start_date = forms.DateField(required=True,
                                  widget=forms.DateInput(attrs={'class': 'form-control',
-                                                               'type': 'date'})
-                                 )
+                                                               'type': 'date'}))
     return_date = forms.DateField(required=True,
                                   widget=forms.DateInput(attrs={'class': 'form-control',
-                                                                'type': 'date'})
-                                  )
+                                                                'type': 'date'}))
 
 
 class OrderCreationForm(forms.ModelForm):
     start_date = forms.DateField(required=True,
                                  disabled=True,
                                  widget=forms.DateInput(attrs={'class': 'form-control',
-                                                               'type': 'date'})
-                                 )
+                                                               'type': 'date'}))
     return_date = forms.DateField(required=True,
                                   disabled=True,
                                   widget=forms.DateInput(attrs={'class': 'form-control',
@@ -29,12 +26,11 @@ class OrderCreationForm(forms.ModelForm):
         model = Order
         fields = ['start_date', 'return_date']
 
-class OrderUpdateForm(forms.ModelForm):
 
+class OrderUpdateForm(forms.ModelForm):
     start_date = forms.DateField(required=True,
                                  widget=forms.DateInput(attrs={'class': 'form-control',
-                                                               'type': 'date'})
-                                 )
+                                                               'type': 'date'}))
     return_date = forms.DateField(required=True,
                                   widget=forms.DateInput(attrs={'class': 'form-control',
                                                                 'type': 'date'}))
@@ -45,12 +41,10 @@ class OrderUpdateForm(forms.ModelForm):
 
 
 class OrderUpdateFormBlocked(OrderUpdateForm):
-
     start_date = forms.DateField(required=True,
                                  disabled=True,
                                  widget=forms.DateInput(attrs={'class': 'form-control',
-                                                               'type': 'date'})
-                                 )
+                                                               'type': 'date'}))
 
     class Meta:
         model = Order
