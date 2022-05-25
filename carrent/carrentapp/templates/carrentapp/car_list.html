@@ -1,8 +1,9 @@
+
 {% extends 'carrentapp/base.html' %}
 {% load static %}
 {% block section_one %}
 
-<section class="top-hero projects-hero">
+<section class="top-hero projects-hero" xmlns="http://www.w3.org/1999/html">
     <p class="top-hero-text text-light">Nasza flota</p>
     <div class="hero-shadow"></div>
 </section>
@@ -10,52 +11,79 @@
 
 <section class="py-5 projects mb-5">
     <div class="container text-center py-5">
+        <div class="container">
         <p class="display-3">Sprawdź nasze samochody</p>
         <p>Każdy z naszych samochodów jest wyjątkowy. Łączy je jedno: są niezawodne!</p>
     </div>
 </section>
 
-
- <section class="py-5 projects mb-5">
-      <div class="row">
-          {% for car in car_list %}
-
-<div class="col-md-6 col-lg-4">
-    <div class="card mb-3">
-        <a href ="{% url 'car_detail' car.id %}"><img src="{{ car.car_image.url }}"></a>
-        <div class="card-body">
-            <p class="p-3">
-               <table class="table table-responsive table-bordered table-hover table-striped table-dark">
-          </tr>
-          <tr>
-            <td>Marka</td>
-            <td>{{ car.brand }}</td>
-          </tr>
-          <tr>
-            <td>Model</td>
-            <td>{{ car.car_model }}</td>
-          </tr>
-          <tr>
-            <td>Skrzynia biegów</td>
-            <td>{{ car.gearbox_type }}</td>
-          </tr>
-          <tr>
-            <td>Liczba miejsc</td>
-            <td>{{ car.number_of_seats }}</td>
-          </tr>
-
-        </table>
-            </p>
-            <div class="d-flex align-items-center justify-content-between">
-         <a href="{% url 'car_detail' car.id %}" class="btn btn-outline-dark px-4" role="button">Wypożycz</a>
-            </div>
-        </div>
+<section class="container">
+    <div class="row">
+<div class="form-group">
+    <div class="form-row">
+<form method="get">
+    {{ filter.form.as_p }}
+    <input type="submit" value="Filtruj" class="btn btn-dark btn-lg"/>
+</form>
     </div>
 </div>
+    </div>
+</section>
+        <br>
 
-    {% endfor %}
+<!--    widget=forms.TextInput(attrs={'class': 'form-control'}))-->
+<!--    -->
+<!--                              <div class="form-row">-->
+<!--                                        <div class="col-md-10 offset-md-1">-->
+<!--                                            <div class="form-group">-->
+<!--                                                <label class="small mb-1" for="id_new_password1">Nowe hasło</label>-->
+<!--                                                <input type="password" name="new_password1" autocomplete="new-password"-->
+<!--                                                       class="form-control" required id="id_new_password1"-->
+<!--                                                       placeholder="Podaj nowe hasło"/>-->
+<!--                                                <span>-->
+<!--                                                </span>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
  </section>
-</div>
+
+<section class="container">
+    <div class="row">
+
+    {% for obj in filter.qs %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card mb-3">
+                 <img src="{{ obj.car_image.url }}">
+                <div class="card-body">
+                <p class="p-3">
+                    <table class="table table-responsive table-bordered table-hover table-striped table-dark">
+                        <tr>
+                            <td>Marka</td>
+                            <td>{{ obj.brand }}</td>
+                        </tr>
+                        <tr>
+                            <td>Model</td>
+                            <td>{{ obj.car_model }}</td>
+                        </tr>
+                        <tr>
+                            <td>Skrzynia biegów</td>
+                            <td>{{ obj.gearbox_type }}</td>
+                        </tr>
+                        <tr>
+                            <td>Liczba miejsc</td>
+                            <td>{{ obj.number_of_seats }}</td>
+                        </tr>
+                    </table>
+                </p>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <a href="{% url 'car_detail' obj.id %}" class="btn btn-outline-dark px-4" role="button">Wypożycz</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+
 <div style="height:50vh"></div>
 
 {% endblock %}
