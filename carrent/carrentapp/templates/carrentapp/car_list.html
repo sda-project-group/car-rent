@@ -2,7 +2,7 @@
 {% load static %}
 {% block section_one %}
 
-<section class="top-hero projects-hero">
+<section class="top-hero projects-hero" xmlns="http://www.w3.org/1999/html">
     <p class="top-hero-text text-light">Nasza flota</p>
     <div class="hero-shadow"></div>
 </section>
@@ -15,47 +15,49 @@
     </div>
 </section>
 
+<section>
+<form method="get">
+    {{ filter.form.as_p }}
+    <input type="submit" value="Filtruj"/>
+</form><br>
 
- <section class="py-5 projects mb-5">
-      <div class="row">
-          {% for car in car_list %}
+<section class="py-5 projects mb-5">
+    <div class="row">
 
-<div class="col-md-6 col-lg-4">
-    <div class="card mb-3">
-        <a href ="{% url 'car_detail' car.id %}"><img src="{{ car.car_image.url }}"></a>
-        <div class="card-body">
-            <p class="p-3">
-               <table class="table table-responsive table-bordered table-hover table-striped table-dark">
-          </tr>
-          <tr>
-            <td>Marka</td>
-            <td>{{ car.brand }}</td>
-          </tr>
-          <tr>
-            <td>Model</td>
-            <td>{{ car.car_model }}</td>
-          </tr>
-          <tr>
-            <td>Skrzynia biegów</td>
-            <td>{{ car.gearbox_type }}</td>
-          </tr>
-          <tr>
-            <td>Liczba miejsc</td>
-            <td>{{ car.number_of_seats }}</td>
-          </tr>
-
-        </table>
-            </p>
-            <div class="d-flex align-items-center justify-content-between">
-         <a href="{% url 'car_detail' car.id %}" class="btn btn-outline-dark px-4" role="button">Wypożycz</a>
+    {% for obj in filter.qs %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card mb-3">
+                <div class="card-body">
+                <p class="p-3">
+                    <table class="table table-responsive table-bordered table-hover table-striped table-dark">
+                        <tr>
+                            <td>Marka</td>
+                            <td>{{ obj.brand }}</td>
+                        </tr>
+                        <tr>
+                            <td>Model</td>
+                            <td>{{ obj.car_model }}</td>
+                        </tr>
+                        <tr>
+                            <td>Skrzynia biegów</td>
+                            <td>{{ obj.gearbox_type }}</td>
+                        </tr>
+                        <tr>
+                            <td>Liczba miejsc</td>
+                            <td>{{ obj.number_of_seats }}</td>
+                        </tr>
+                        <a href ="{% url 'car_detail' obj.id %}"><img src="{{ obj.car_image.url }}"></a>
+                        <div class="d-flex align-items-center justify-content-between">
+                        <a href="{% url 'car_detail' obj.id %}" class="btn btn-outline-dark px-4" role="button">Wypożycz</a>
+                        </div>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
     {% endfor %}
- </section>
-</div>
+    </div>
+</section>
+
 <div style="height:50vh"></div>
 
 {% endblock %}
