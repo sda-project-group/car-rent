@@ -16,7 +16,7 @@ def base_test_view(request):
     return render(request, 'carrentapp/base.html')
 
 
-class PickOrderDate(FormView, LoginRequiredMixin):
+class PickOrderDate(FormView):
     form_class = OrderDateForm
     template_name = 'carrentapp/order_form.html'
 
@@ -59,10 +59,11 @@ class PickOrderDate(FormView, LoginRequiredMixin):
         return redirect('order_confirm')
 
 
-class CreateOrderView(CreateView, LoginRequiredMixin):
+class CreateOrderView(CreateView):
     model = Order
     form_class = OrderCreationForm
     template_name = 'carrentapp/order_confirm.html'
+
 
     def get_initial(self):
         initial = super().get_initial()
@@ -70,6 +71,7 @@ class CreateOrderView(CreateView, LoginRequiredMixin):
         initial['start_date'] = self.request.session.get('start_date')
         initial['return_date'] = self.request.session.get('return_date')
         return initial
+
 
     def form_valid(self, form):
         objct = form.save(commit=False)
@@ -106,6 +108,7 @@ class HistoryOrderView(LoginRequiredMixin, ListView):
         return qs
 
 
+
 class FutureOrderView(LoginRequiredMixin, ListView):
     model = Order
     template_name = 'carrentapp/order_future.html'
@@ -113,6 +116,13 @@ class FutureOrderView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         qs = Order.objects.filter(start_date__gt=datetime.date.today(), client=self.request.user).select_related('car')
         return qs
+
+
+class CarFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = Car
+        fields = ['brand', 'car_model', 'gearbox_type', 'number_of_seats']
 
 
 def car_list_view(request):
