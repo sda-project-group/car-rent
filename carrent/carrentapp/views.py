@@ -128,3 +128,4 @@ class CarFilter(django_filters.FilterSet):
 def car_list_view(request):
     f = CarFilter(request.GET, queryset=Car.objects.all())
     return render(request, 'carrentapp/car_list.html', {'filter': f})
+
