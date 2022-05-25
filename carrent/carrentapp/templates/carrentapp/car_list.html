@@ -1,3 +1,4 @@
+
 {% extends 'carrentapp/base.html' %}
 {% load static %}
 {% block section_one %}
@@ -10,23 +11,33 @@
 
 <section class="py-5 projects mb-5">
     <div class="container text-center py-5">
+        <div class="container">
         <p class="display-3">Sprawdź nasze samochody</p>
         <p>Każdy z naszych samochodów jest wyjątkowy. Łączy je jedno: są niezawodne!</p>
     </div>
 </section>
 
-<section>
+<section class="container">
+    <div class="row">
+<div class="form-group">
+    <div class="form-row">
 <form method="get">
     {{ filter.form.as_p }}
-    <input type="submit" value="Filtruj"/>
-</form><br>
+    <input type="submit" value="Filtruj" class="btn btn-dark btn-lg"/>
+</form>
+    </div>
+</div>
+    </div>
+</section>
+        <br>
 
-<section class="py-5 projects mb-5">
+<section class="container">
     <div class="row">
 
     {% for obj in filter.qs %}
         <div class="col-md-6 col-lg-4">
             <div class="card mb-3">
+                 <img src="{{ obj.car_image.url }}">
                 <div class="card-body">
                 <p class="p-3">
                     <table class="table table-responsive table-bordered table-hover table-striped table-dark">
@@ -46,17 +57,17 @@
                             <td>Liczba miejsc</td>
                             <td>{{ obj.number_of_seats }}</td>
                         </tr>
-                        <a href ="{% url 'car_detail' obj.id %}"><img src="{{ obj.car_image.url }}"></a>
-                        <div class="d-flex align-items-center justify-content-between">
-                        <a href="{% url 'car_detail' obj.id %}" class="btn btn-outline-dark px-4" role="button">Wypożycz</a>
-                        </div>
                     </table>
+                </p>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <a href="{% url 'car_detail' obj.id %}" class="btn btn-outline-dark px-4" role="button">Wypożycz</a>
+                    </div>
                 </div>
             </div>
         </div>
     {% endfor %}
-    </div>
-</section>
+
+
 
 <div style="height:50vh"></div>
 
