@@ -2,16 +2,20 @@
 {% block section_one %}
 
 <form method="POST" novalidate>
-      <p>{{ request.user }}</p>
+      <p>Użytkownik: {{ request.user }}</p><br>
       <p style="color: red">{{ view.kwargs.msg }}</p>
-     <section class="py-5 projects mb-5">
-    <table class="table table-responsive table-bordered table-hover table-striped table-dark" >
-      {{ form }}
-  </table>
-    <button name="dodaj" class="btn btn-dark btn-lg">Dodaj</button>
-    {% csrf_token %}
+            <section class="py-5 projects mb-5">
+                <section class="car_view">
+                <table style="width: 50%"  class="table table-responsive table-bordered table-hover table-striped table-dark" >
+                    {{ form }}
 
+                </table>
 </section>
-    </form>
+         <section class="car_view">
+            <button name="dodaj" class="btn btn-dark btn-lg">Dodaj</button>
+                    {% csrf_token %}
+                </section>
+            </section>
+</form>
 <div style="height:100vh"></div>
 {% endblock %}

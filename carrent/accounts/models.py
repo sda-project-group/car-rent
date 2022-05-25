@@ -2,9 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
-
 class AccountManagerCustom(BaseUserManager):
-
     def create_user(self,
                     email,
                     username,
@@ -84,7 +82,6 @@ class AccountManagerCustom(BaseUserManager):
 
 
 class UserCustom(AbstractBaseUser):
-
     email = models.EmailField(verbose_name="Email", max_length=50, unique=True)
     username = models.CharField(verbose_name="Nazwa uzytkownika", max_length=25, unique=True)
     join_date = models.DateTimeField(verbose_name="Data dolaczenia", auto_now_add=True)
@@ -115,6 +112,7 @@ class UserCustom(AbstractBaseUser):
                        'addr_post_code',
                        'mobile_nr'
                        ]
+
     class Meta:
         verbose_name = "Uzytkownik"
         verbose_name_plural = "Uzytkownicy"

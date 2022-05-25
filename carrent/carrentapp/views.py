@@ -1,10 +1,8 @@
 import datetime
 from datetime import datetime as dt
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, ListView, FormView
-
 from .forms import OrderDateForm, OrderCreationForm
 from .models import BasePrice, Car, Order
 from .utilities import calculate_cost
@@ -15,7 +13,7 @@ def base_test_view(request):
     return render(request, 'carrentapp/base.html')
 
 
-class PickOrderDate(FormView):
+class PickOrderDate(FormView, LoginRequiredMixin):
     form_class = OrderDateForm
     template_name = 'carrentapp/order_form.html'
 
@@ -58,11 +56,10 @@ class PickOrderDate(FormView):
         return redirect('order_confirm')
 
 
-class CreateOrderView(CreateView):
+class CreateOrderView(CreateView, LoginRequiredMixin):
     model = Order
     form_class = OrderCreationForm
     template_name = 'carrentapp/order_confirm.html'
-
 
     def get_initial(self):
         initial = super().get_initial()
@@ -70,7 +67,6 @@ class CreateOrderView(CreateView):
         initial['start_date'] = self.request.session.get('start_date')
         initial['return_date'] = self.request.session.get('return_date')
         return initial
-
 
     def form_valid(self, form):
         objct = form.save(commit=False)
@@ -105,7 +101,6 @@ class HistoryOrderView(LoginRequiredMixin, ListView):
         qs = Order.objects.filter(return_date__lt=datetime.date.today(), client=self.request.user).select_related('car')
 
         return qs
-
 
 
 class FutureOrderView(LoginRequiredMixin, ListView):

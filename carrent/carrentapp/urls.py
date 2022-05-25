@@ -2,8 +2,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
 from django.views.generic import ListView, DetailView, TemplateView
-
-
 from .views import base_test_view, CreateOrderView, FutureOrderView, HistoryOrderView, ActualOrderView, PickOrderDate
 from .models import Car, Department
 

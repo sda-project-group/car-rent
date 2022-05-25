@@ -1,3 +1,4 @@
 Django==4.0.4
 python-dotenv==0.20.0
 Pillow==9.1.0
+django-filter==21.1
