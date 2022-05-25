@@ -138,14 +138,42 @@ height: 1vh;
 }
 
 .aboutus-img {
-	height: 300px;
+	height: 150px;
 	object-fit: cover;
 }
+
+
+.car-img {
+	height: 150px;
+	object-fit: cover;
+}
+
 .car_view {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
 
+.order {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+}
+
+.car_photo {
+display: flex;
+width: 200px;
+height: 200px;
+position: relative;
+}
+
+
+.car_table {
+display: flex;
+width: 35%;
+height: auto;
+position: relative;
 }
 
 @media (min-width: 992px) {
@@ -173,6 +201,10 @@ height: 1vh;
 
 	.aboutus-img {
 		height: auto;
+	}
+
+		.car-img {
+		height: 50px;
 	}
 }
 

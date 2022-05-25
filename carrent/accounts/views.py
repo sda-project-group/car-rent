@@ -20,11 +20,10 @@ class CustomLoginView(LoginView):
 
 class RegisterView(View):
     form_class = RegistrationForm
-    initial = {'key': 'value'}
     template_name = 'accounts/registration.html'
 
     def get(self, request, *args, **kwargs):
-        form = self.form_class(initial=self.initial)
+        form = self.form_class
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
@@ -39,7 +38,6 @@ class RegisterView(View):
 
 
 class UpdateProfileUserView(LoginRequiredMixin, View):
-
     def get(self, request, *args, **kwargs):
         user_form = UpdateUserForm(instance=request.user)
         return render(request, 'accounts/profile.html', {'user_form': user_form})

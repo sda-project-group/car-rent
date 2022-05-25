@@ -20,7 +20,6 @@
       <th scope="col">Koszt wypożyczenia</th>
     </tr>
     </thead>
-    <body>
 
         {%  for order in order_list  %}
        <tr class="table-success">
@@ -32,12 +31,8 @@
          <td> {{ order.rent_cost }}  </td>
        </tr>
         {% endfor %}
-
-    </body>
-
 </table>
 </div>
 {% endif %}
 <div style="height:150vh"></div>
-</div>
 {% endblock %}

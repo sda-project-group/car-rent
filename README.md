@@ -20,40 +20,59 @@ Project is created with:
 * Pillow 9.1.0
 * python-dotenv 0.20.0
 * Bootstrap 5
+* django-filter
 
 
 ### Setup 
 Being a Python web framework, Django requires Python. You can verify that Python is installed by typing python from your shell:
+
 `python3 --version` 
 
-If you don't have Python installed you can go to (https://www.python.org/downloads/) to download it.
+If you don't have Python installed you can go to https://www.python.org/downloads/ to download it.
 
-Creating a new virtual environment: 
-`$ python3 -m venv myenv`
+Creating a new virtual environment (in Windows):
+
+``` python3 -m venv myenv```
 
 Start the virtual environment with the command:
-`myenv\Scripts\activate.ps1`
+
+```myenv\Scripts\activate.ps1```
 
 Then you should clone the repository:
-`$ git clone https://github.com/sda-project-group/car-rent.git`
-`$ cd car-rent`
+
+```git clone https://github.com/sda-project-group/car-rent.git```
+```cd car-rent```
 
 Then install the dependencies:
-`(myenv)$ pip install -r requirements.txt`
+
+```(myenv) pip install -r requirements.txt```
 
 Once pip has finished downloading the dependencies:
 
-`(myenv)$ cd project`
-`(myenv)$ python manage.py runserver`
+```(myenv) cd project```
 
-And navigate to http://127.0.0.1:8000
+```(myenv) python manage.py makemigrations ```
+
+```(myenv) python manage.py migrate ```
+
+```(myenv) python manage.py runserver```
+
+And navigate to:
+
+http://127.0.0.1:8000/carrentapp
+
+You can use:
+* http://127.0.0.1:8000/admin
+* http://127.0.0.1:8000/accounts
+
+
 
 
 
 
 ### Features
 
-Client:
+Customer:
 * account registration and profile editing
 * logging in to the customer account
 * password change

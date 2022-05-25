@@ -93,7 +93,8 @@ class Order(models.Model):
     def save(self, *args, **kwarg):
         self.rent_cost = self.cost_calculator
         super(Order, self).save(*args, **kwarg)
-        
+
+
 class Department(models.Model):
     addr_loc_country = models.CharField(verbose_name="Kraj oddziału", max_length=50, choices=[('pl', "Polska")])
     addr_loc_city = models.CharField(verbose_name="Miasto oddziału", max_length=50, choices=[('WAW', "Warszawa"), ('KRK', "Kraków"), ('KTW', "Katowice"), ('WRO', "Wrocław")])
