@@ -12,14 +12,9 @@ from .utilities import calculate_cost
 from .validators import order_date_validator, if_entries_collide_error
 
 
-def base_test_view(request):
-    return render(request, 'carrentapp/base.html')
-
-
-class PickOrderDate(FormView):
+class PickOrderDate(LoginRequiredMixin, FormView):
     form_class = OrderDateForm
     template_name = 'carrentapp/order_form.html'
-
 
     def form_valid(self, form):
         start_date = self.request.POST.get('start_date')
@@ -50,16 +45,16 @@ class PickOrderDate(FormView):
 
         errors = order_date_validator(start_date_datetime, return_date_datetime)
         if errors:
-            return redirect('order_msg', pk=self.request.session.get('car_id'), msg=errors)
+            return redirect('order_msg', pk=self.request.get('car_id'), msg=errors)
 
         errors = if_entries_collide_error(start_date_datetime, return_date_datetime, car)
         if errors:
-            return redirect('order_msg',  pk=self.request.session.get('car_id'), msg=errors)
+            return redirect('order_msg',  pk=self.request.get('car_id'), msg=errors)
 
         return redirect('order_confirm')
 
 
-class CreateOrderView(CreateView):
+class CreateOrderView(LoginRequiredMixin, CreateView):
     model = Order
     form_class = OrderCreationForm
     template_name = 'carrentapp/order_confirm.html'

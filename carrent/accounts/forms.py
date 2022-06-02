@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.contrib.auth import get_user_model
@@ -6,8 +8,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.db.transaction import atomic
 from django.core.validators import RegexValidator
+
 from .validators import validation_age
-import re
+
 
 
 class UserCreationForm(forms.ModelForm):
@@ -27,7 +30,7 @@ class UserCreationForm(forms.ModelForm):
         password1 = self.cleaned_data.get("password1")
         password2 = self.cleaned_data.get("password2")
         if password1 and password2 and password1 != password2:
-            raise ValidationError("Passwords don't match")
+            raise ValidationError("Wpisane hasła są różne")
         return password2
 
     def save(self, commit=True):
