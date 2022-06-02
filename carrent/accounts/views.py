@@ -3,11 +3,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
-from .validators import validation_age
 from .forms import LoginForm, RegistrationForm, UpdateUserForm
 
 
@@ -33,7 +31,6 @@ class RegisterView(View):
             form.save()
 
             return redirect(to='main')
-
         return render(request, self.template_name, {'form': form})
 
 
@@ -49,7 +46,6 @@ class UpdateProfileUserView(LoginRequiredMixin, View):
             user_form.save()
             messages.success(request, 'Twój profil został pomyślnie zaktualizowany')
             return redirect(to='user-profile')
-
         return render(request, 'accounts/profile.html', {'user_form': user_form})
 
 

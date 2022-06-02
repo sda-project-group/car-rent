@@ -15,23 +15,23 @@ class AccountManagerCustom(BaseUserManager):
                     mobile_nr,
                     password=None):
         if not email:
-            raise ValueError("User must have an email address")
+            raise ValueError("Użytkownik musi podać adres e-mail")
         if not username:
-            raise ValueError("User must have a username")
+            raise ValueError("Użytkownik musi podać nazwę użytkownika")
         if not first_name:
-            raise ValueError("User must have a first name")
+            raise ValueError("Użytkownik musi podać imię")
         if not last_name:
-            raise ValueError("User must have a last name")
+            raise ValueError("Użytkownik musi podać nazwisko")
         if not birthdate:
-            raise ValueError("User must have a birthdate")
+            raise ValueError("Użytkownik musi podać datę urodzenia")
         if not addr_city:
-            raise ValueError("User must have a city")
+            raise ValueError("Użytkownik musi posiadać miasto")
         if not addr_street:
-            raise ValueError("User must have a street")
+            raise ValueError("Użytkownik musi posiadać ulicę")
         if not addr_post_code:
-            raise ValueError("User must have a post code")
+            raise ValueError("Użytkownik musi posiadać kod pocztowy")
         if not mobile_nr:
-            raise ValueError("User must have a phone number")
+            raise ValueError("Użytkownik musi posiadać numer telefonu")
 
         user = self.model(
             email=self.normalize_email(email),
